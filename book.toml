@@ -1,0 +1,6 @@
+[book]
+authors = ["mori5321"]
+language = "en"
+multilingual = false
+src = "src"
+title = "blog"
