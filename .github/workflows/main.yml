@@ -20,7 +20,8 @@ jobs:
 
       - name: Build docs
         run: |
-          mdbook build
+          mkdir dist
+          mdbook build --dist dist
       
       - name: Checkout production branch
         uses: actions/checkout@v4
@@ -29,7 +30,7 @@ jobs:
 
       - name: Copy book to production
         run: |
-          cp -r book .
+          cp -r dist .
           git config --global user.name 'Github Actions'
           git config --global user.email 'actions@github.com'
           git add .
