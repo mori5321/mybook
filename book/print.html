@@ -202,12 +202,13 @@
 </li>
 </ul>
 <h2 id="principles-of-error-handling"><a class="header" href="#principles-of-error-handling">Principles of Error Handling</a></h2>
-<h3 id="dont-delegate-error-handling-to-upstream-as-much-as-possible"><a class="header" href="#dont-delegate-error-handling-to-upstream-as-much-as-possible">Don't delegate Error Handling to upstream as much as possible</a></h3>
+<h3 id="avoid-delegating-error-handling-to-upstream-as-much-as-possible"><a class="header" href="#avoid-delegating-error-handling-to-upstream-as-much-as-possible">Avoid delegating Error Handling to upstream as much as possible</a></h3>
 <p>The deeper the hierarchy, the more complex and difficult it becomes to follow the process. 
 It's good that upstream just do &quot;Logging Error&quot; about Error Handlin. 
 Handling other than logging should be done close to the process calling.</p>
 <h3 id="avoid-defining-custom-error-as-much-as-possible"><a class="header" href="#avoid-defining-custom-error-as-much-as-possible">Avoid defining Custom Error as much as possible.</a></h3>
-<p>Custom Error involves delegating error handling upstream. Handle errors as close to the process as possible.</p>
+<p>Custom Error involves delegating error handling to upstream. 
+Let's handle errors as close to the process as possible.</p>
 <h3 id="if-your-error-message-is-good-you-dont-need-stacktrace"><a class="header" href="#if-your-error-message-is-good-you-dont-need-stacktrace">If your error message is good, you don't need stacktrace.</a></h3>
 <p>Stacktrace shows its value only when error message is not useful. </p>
 <h2 id="wrap--unwrap"><a class="header" href="#wrap--unwrap">Wrap &amp; Unwrap</a></h2>
