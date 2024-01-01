@@ -211,8 +211,30 @@ Handling other than logging should be done close to the process calling.</p>
 <h3 id="if-your-error-message-is-good-you-dont-need-stacktrace"><a class="header" href="#if-your-error-message-is-good-you-dont-need-stacktrace">If your error message is good, you don't need stacktrace.</a></h3>
 <p>Stacktrace shows its value only when error message is not useful. </p>
 <h2 id="wrap--unwrap"><a class="header" href="#wrap--unwrap">Wrap &amp; Unwrap</a></h2>
-<p>TBD</p>
-<h2 id="whether-to-wrap"><a class="header" href="#whether-to-wrap">Whether to Wrap</a></h2>
+<p>Go 1.13 supports Wrap/Unwrap.</p>
+<p>This is a common case before Go 1.13. </p>
+<pre><code class="language-go:sample.go">// Error Containing Another Error.
+type QueryError struct {
+    Query string
+    Err   error
+}
+
+func (e *QueryError) Error() string { return e.Query + &quot;: &quot; + e.Err.Error() }
+</code></pre>
+<p>The pattern of one error containing another error is pervasive(common). So, Go 1.13 supports for it.</p>
+<h3 id="wrap"><a class="header" href="#wrap">Wrap</a></h3>
+<p>You can wrap error by %w. </p>
+<pre><code class="language-go:sample.go">if err != nil {
+  return fmt.Errorf(&quot;QueryError %w&quot;, err);
+}
+</code></pre>
+<h3 id="unwrap"><a class="header" href="#unwrap">Unwrap</a></h3>
+<p>errors.Is<code>or</code>errors.As` recursively checks the wrapped error (It calls Unwrap() internally). </p>
+<pre><code class="language-go:sample.go">if errors.Is(err, ErrPermission) {
+  // Some ErrorHandling 
+}
+</code></pre>
+<h2 id="whether-to-wrap-or-not"><a class="header" href="#whether-to-wrap-or-not">Whether to Wrap or Not?</a></h2>
 <p>It depends on the context. Do not wrap an errror when doing so would expose implementation details. You should care about <em>Abstraction Violation</em>.</p>
 <h3 id="ex1-parser"><a class="header" href="#ex1-parser">Ex1. Parser</a></h3>
 <p>Imagine Parser which reads a complex data structure. If an error occurs, we wish to report the line and column number at whitch it occurred. It makes sense to expose the error produced by it.</p>

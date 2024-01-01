@@ -24,9 +24,43 @@ Custom Error involves delegating error handling upstream. Handle errors as close
 Stacktrace shows its value only when error message is not useful. 
 
 ## Wrap & Unwrap
-TBD
+Go 1.13 supports Wrap/Unwrap.
 
-## Whether to Wrap
+This is a common case before Go 1.13. 
+
+```go:sample.go
+// Error Containing Another Error.
+type QueryError struct {
+    Query string
+    Err   error
+}
+
+func (e *QueryError) Error() string { return e.Query + ": " + e.Err.Error() }
+```
+
+The pattern of one error containing another error is pervasive(common). So, Go 1.13 supports for it.
+
+### Wrap
+You can wrap error by %w. 
+
+```go:sample.go
+if err != nil {
+  return fmt.Errorf("QueryError %w", err);
+}
+```
+
+### Unwrap
+
+errors.Is` or `errors.As` recursively checks the wrapped error (It calls Unwrap() internally). 
+
+```go:sample.go
+if errors.Is(err, ErrPermission) {
+  // Some ErrorHandling 
+}
+```
+
+
+## Whether to Wrap or Not?
 It depends on the context. Do not wrap an errror when doing so would expose implementation details. You should care about *Abstraction Violation*.
 
 ### Ex1. Parser
