@@ -21,7 +21,7 @@ jobs:
       - name: Build docs
         run: |
           mkdir dist
-          mdbook build --dist dist
+          mdbook build -d dist
       
       - name: Checkout production branch
         uses: actions/checkout@v4
