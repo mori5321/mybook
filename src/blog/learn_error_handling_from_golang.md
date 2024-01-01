@@ -13,9 +13,8 @@
 ### Avoid delegating Error Handling to upstream as much as possible
 
 The deeper the hierarchy, the more complex and difficult it becomes to follow the process. 
-It's good that upstream just do "Logging Error" about Error Handlin. 
-Handling other than logging should be done close to the process calling.
-
+*It's good that upstream just do "Logging Error" about Error Handling.* 
+*Handling other than logging should be done close to the process calling.*
 
 ### Avoid defining Custom Error as much as possible.
 Custom Error involves delegating error handling to upstream. 
