@@ -7,7 +7,7 @@ on:
     #   - "src/**.md"
     #   - "book.toml"
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,13 +20,26 @@ jobs:
 
       - name: Build docs
         run: |
-          mkdir dist
           mdbook build -d dist
-      
+
+      - name: Archive dist
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout production branch
         uses: actions/checkout@v4
         with:
           ref: 'production'
+
+      - name: Download dist
+        uses: actions/download-artifact@v3
+        with:
+          name: book
+          path: book
 
       - name: Copy book to production
         run: |
