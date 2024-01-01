@@ -10,3 +10,8 @@
 ```
 mdbook serve
 ```
+
+## Build
+```
+mdbook build
+```
