@@ -67,7 +67,7 @@ It depends on the context. Do not wrap an errror when doing so would expose impl
 Imagine Parser which reads a complex data structure. If an error occurs, we wish to report the line and column number at whitch it occurred. It makes sense to expose the error produced by it.
 
 ### Ex2. Database Caller
-Imagene Function which makes several calls to a database. It should not return an error which unwrap s to the result of one of those calls. If the database used by the function is an implementation detail, then exposes errors is a violation of abstraction. 
+Imagine Function which makes several calls to a database. It should not return an error which unwrap s to the result of one of those calls. If the database used by the function is an implementation detail, then exposes errors is a violation of abstraction. 
 
 ``` go:bad_example.go
 // BAD: Abstraction Violation.
