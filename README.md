@@ -1,4 +1,10 @@
-# Rule
+# Overview
+Blog of @mori5321
+
+# Site
+https://book.pingdoms.co/blog
+
+# Writing Rules
 
 - Use real name (for accountability)
 - Use English as a Primary Language.
