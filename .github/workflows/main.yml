@@ -12,14 +12,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
+      - name: Setup mdbook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
 
-      - name: Build
+      - name: Build docs
         run: |
-          docker build -t mdbook-builder .
-          docker run --name mdbook-container mdbook-builder
-
-      - name: Copy Artifacts (/book)
-        run: docker cp mdbook-container:/book .
+          mdbook build
       
       - name: Checkout production branch
         uses: actions/checkout@v4
