@@ -1,4 +1,4 @@
-# Summary
+# Deploy mdbook on Cloudflare Page and Github Action
 This blog is made with [mdbook](https://github.com/rust-lang/mdBook).
 Here is how it is hosted and deployed.
 
