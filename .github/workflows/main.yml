@@ -3,9 +3,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "src/**.md"
-      - "book.toml"
+    # paths:
+    #   - "src/**.md"
+    #   - "book.toml"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,6 +17,11 @@ jobs:
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: 'latest'
+
+      - name: Install mdbook-mermaid
+        run: |
+          cargo install mdbook-mermaid
+
 
       - name: Build docs
         run: |
