@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="blog.html"><strong aria-hidden="true">1.</strong> Blog</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.1.</strong> Learn Error Handling From Golang</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="blog.html"><strong aria-hidden="true">1.</strong> Blog</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.1.</strong> Learn Error Handling From Golang</a></li><li class="chapter-item expanded "><a href="blog/deploy_mdbook_on_cloudflare_page_and_github_action.html"><strong aria-hidden="true">1.2.</strong> Deploy mdbook on CloudFlare Page and Github Action</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -259,6 +259,91 @@ if errors.Is(err, sql.ErrNoRows)
 <li><a href="https://zenn.dev/nobonobo/articles/0b722c9c2b18d5#%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%8F%E3%83%B3%E3%83%89%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%AE%EF%BC%94%E7%A8%AE">Go Error Handling Strategy / Goエラーハンドリング戦略</a></li>
 <li><a href="https://debimate.jp/2021/12/14/">errors package Unwrap Is As</a></li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
+<p>This blog is made with <a href="https://github.com/rust-lang/mdBook">mdbook</a>.
+Here is how it is hosted and deployed.</p>
+<h1 id="infrastructure-i-use"><a class="header" href="#infrastructure-i-use">Infrastructure I use.</a></h1>
+<ul>
+<li>Hosting: Cloudflare Page</li>
+<li>Continuous Deployment: Github Actions</li>
+</ul>
+<h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+<pre><code class="language-mermaid">%%{ init: {'theme': 'dark' }}%%
+sequenceDiagram
+  feature branch-&gt;&gt;main branch: Merge PR with content
+  main branch-&gt;&gt;github artifact: mdbook build &amp; upload /dist directory
+  github artifact-&gt;&gt;production branch: download /dist directory
+  production branch-&gt;&gt;cloudflare page: commit /dist directory &amp; deploy it
+</code></pre>
+<h1 id="deployment"><a class="header" href="#deployment">Deployment</a></h1>
+<p>Here's a step-by-step breakdown of the workflow.</p>
+<ol start="0">
+<li>Trigger Workflow: The workflow is triggered when commit pushed on main branch.</li>
+<li>Checkout: The workflow begins by checking out the repository using the actions/checkout@v4 action. </li>
+<li>Setup mdBook: Next, the workflow sets up mdBook (a tool to create online books from Markdown files) using the peaceiris/actions-mdbook@v1 action.</li>
+<li>Build Docs: The mdbook build -d dist command is then run to compile the Markdown files into a book, placing the output in the <code>dist</code> directory. I specified <code>dist</code> because default <code>book</code> directory is ignored by <code>.gitignore</code>.</li>
+<li>Archive <code>dist</code>: The contents of the <code>dist</code> directory are then archived using the actions/upload-artifact@v3 action. </li>
+<li>Checkout Production Branch: In this step, the workflow checks out the production branch of the repository using the actions/checkout@v4 action. This branch is intended for the deployed version of the book.</li>
+<li>Download dist: The workflow then downloads the archived dist directory from the previous job using the actions/download-artifact@v3 action.</li>
+<li>Commit on production branch: The workflow updates the production branch with the new version of book(<code>dist</code>).</li>
+<li>Cloudflare Pages auto deploy production branch: In cloudflare page settings, choose <code>production</code> branch as a deploy branch, <code>dist</code> as a build output directory. </li>
+</ol>
+<pre><code class="language-yml">name: Deployment
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - &quot;src/**.md&quot;
+      - &quot;book.toml&quot;
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup mdbook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
+
+      - name: Build docs
+        run: |
+          mdbook build -d dist
+
+      - name: Archive dist
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+    steps:
+      - name: Checkout production branch
+        uses: actions/checkout@v4
+        with:
+          ref: 'production'
+
+      - name: Download dist
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
+
+      - name: Copy book to production
+        run: |
+          git config --global user.name 'Github Actions'
+          git config --global user.email 'actions@github.com'
+          git add .
+          git commit -m &quot;Deploy book to production&quot;
+          git push
+</code></pre>
 
                     </main>
 
@@ -294,6 +379,8 @@ if errors.Is(err, sql.ErrNoRows)
         <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
 
         <script>
         window.addEventListener('load', function() {
