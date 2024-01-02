@@ -182,13 +182,13 @@ Here is how it is hosted and deployed.</p>
 <li>Continuous Deployment: Github Actions</li>
 </ul>
 <h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
-<pre><code class="language-mermaid">%%{ init: {'theme': 'dark' }}%%
+<pre class="mermaid">%%{ init: {'theme': 'dark' }}%%
 sequenceDiagram
   feature branch-&gt;&gt;main branch: Merge PR with content
   main branch-&gt;&gt;github artifact: mdbook build &amp; upload /dist directory
   github artifact-&gt;&gt;production branch: download /dist directory
   production branch-&gt;&gt;cloudflare page: commit /dist directory &amp; deploy it
-</code></pre>
+</pre>
 <h1 id="deployment"><a class="header" href="#deployment">Deployment</a></h1>
 <p>Here's a step-by-step breakdown of the workflow.</p>
 <ol start="0">
