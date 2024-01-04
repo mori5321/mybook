@@ -1,1 +1,0 @@
-# DRAFT: package in golang
