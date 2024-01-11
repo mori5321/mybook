@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Performance API in Node.js - blog</title>
+        <title>Graceful Shutdown in your web application - blog</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../blog.html"><strong aria-hidden="true">1.</strong> Blog</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../blog/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.1.</strong> Learn Error Handling From Golang</a></li><li class="chapter-item expanded "><a href="../blog/deploy_mdbook_on_cloudflare_page_and_github_action.html"><strong aria-hidden="true">1.2.</strong> Deploy mdbook on Cloudflare Page and Github Action</a></li><li class="chapter-item expanded "><a href="../blog/performance_api_in_nodejs.html" class="active"><strong aria-hidden="true">1.3.</strong> Performance API in Node.js</a></li><li class="chapter-item expanded "><a href="../blog/graceful_shutdown.html"><strong aria-hidden="true">1.4.</strong> Graceful Shutdown in your web application</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../blog.html"><strong aria-hidden="true">1.</strong> Blog</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../blog/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.1.</strong> Learn Error Handling From Golang</a></li><li class="chapter-item expanded "><a href="../blog/deploy_mdbook_on_cloudflare_page_and_github_action.html"><strong aria-hidden="true">1.2.</strong> Deploy mdbook on Cloudflare Page and Github Action</a></li><li class="chapter-item expanded "><a href="../blog/performance_api_in_nodejs.html"><strong aria-hidden="true">1.3.</strong> Performance API in Node.js</a></li><li class="chapter-item expanded "><a href="../blog/graceful_shutdown.html" class="active"><strong aria-hidden="true">1.4.</strong> Graceful Shutdown in your web application</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,51 +173,74 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="web-performance-api-in-nodejs--browser"><a class="header" href="#web-performance-api-in-nodejs--browser">Web Performance API in (Node.js / Browser)</a></h1>
-<h2 id="basic-api"><a class="header" href="#basic-api">Basic API</a></h2>
-<h3 id="performancenow"><a class="header" href="#performancenow">performance.now</a></h3>
-<p>TBA</p>
-<h3 id="performancemark--performancemeasure--performanceobserver"><a class="header" href="#performancemark--performancemeasure--performanceobserver">performance.mark / performance.measure / PerformanceObserver</a></h3>
-<p>TBA</p>
-<h3 id="performanceeventlooputilization"><a class="header" href="#performanceeventlooputilization">performance.eventLoopUtilization</a></h3>
-<p>TBA</p>
-<h3 id="performanceclearmarks--performanceclearmeasures--performanceclearresourcetimings"><a class="header" href="#performanceclearmarks--performanceclearmeasures--performanceclearresourcetimings">performance.clearMarks / performance.clearMeasures / performance.clearResourceTimings</a></h3>
-<p>TBA</p>
-<h2 id="nodejs-specific-features"><a class="header" href="#nodejs-specific-features">Node.js Specific Features</a></h2>
-<h3 id="performancetimerify"><a class="header" href="#performancetimerify">performance.timerify</a></h3>
-<p>TBA</p>
-<h2 id="browser-specific-features"><a class="header" href="#browser-specific-features">Browser Specific Features</a></h2>
-<p>TBA</p>
-<h1 id="references"><a class="header" href="#references">References</a></h1>
+                        <h1 id="graceful-shutdown-on-your-web-application"><a class="header" href="#graceful-shutdown-on-your-web-application">Graceful Shutdown on your web application.</a></h1>
+<h2 id="what-is-a-problem"><a class="header" href="#what-is-a-problem">What is a problem?</a></h2>
+<p>When you want to deploy your application frequently (e.g. every 5 minutes), it means you shutdown old application regularly.
+While shutting down the process, if some requests are aborted, it is an incident. We need to wait for these process to be done. </p>
+<h2 id="sigterm"><a class="header" href="#sigterm">SIGTERM</a></h2>
+<p>SIGTERM is a process to &quot;require&quot; &quot;termination, whereas SIGKILL is a process to &quot;force&quot; termination.</p>
+<p>In these modern days, most of the cloud service send <code>SIGTERM</code> at first when it finishes processes. Then, x seconds after, it sends <code>SIGKILL</code>.</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: right">system</th><th style="text-align: right">default behavior</th></tr></thead><tbody>
+<tr><td style="text-align: right">k8s</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
+<tr><td style="text-align: right">docker stop</td><td style="text-align: right">SIGTERM -&gt; 10 sec -&gt; SIGKILL</td></tr>
+<tr><td style="text-align: right">systemd</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
+<tr><td style="text-align: right">Amazon ECS</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
+</tbody></table>
+</div>
+<h2 id="how-to-implement-grceful-shutdown-on-your-web-application"><a class="header" href="#how-to-implement-grceful-shutdown-on-your-web-application">How to implement Grceful Shutdown on your web application.</a></h2>
+<p>It's very simple.</p>
+<h3 id="for-synchronous-operations-eg-general-api-call"><a class="header" href="#for-synchronous-operations-eg-general-api-call">For Synchronous Operations (e.g. General API call)</a></h3>
 <ul>
 <li>
-<p><a href="https://nodejs.org/api/perf_hooks.html">Node.js: Perf Hooks</a></p>
+<ol>
+<li>Accept SIGTERM</li>
+</ol>
 </li>
 <li>
-<p><a href="https://w3c.github.io/perf-timing-primer/">Web Performance API</a></p>
+<ol start="2">
+<li>Disable accepting new HTTP(TCP) connections</li>
+</ol>
 </li>
 <li>
-<p><a href="https://qiita.com/makotot/items/70bd392a62afd43d3189">Browser; Web Performance API</a></p>
+<ol start="3">
+<li>Wait for all processing requests to finish</li>
+</ol>
+</li>
+</ul>
+<h3 id="for-asynchrnonous-operations-eg-background-process"><a class="header" href="#for-asynchrnonous-operations-eg-background-process">For Asynchrnonous Operations (e.g. Background Process)</a></h3>
+<ul>
+<li>
+<ol>
+<li>Accept SIGTERM</li>
+</ol>
 </li>
 <li>
-<p>https://kinsta.com/jp/blog/performance-api/</p>
+<ol start="2">
+<li>Disable accepting new asynchronous operations</li>
+</ol>
 </li>
 <li>
-<p>https://blog.bokken.io/articles/2023-04-30/timing-related-apis.html</p>
+<ol start="3">
+<li>Wait for all processing operations to finish</li>
+</ol>
 </li>
+</ul>
+<p>In order to wait for all requests to finish, we just set a grace period between SIGTERM -&gt; SIGKILL to match the exepected maximum execution time of processes.</p>
+<p>But, if it's too long, you'll see the phenonmenon that deploy doesn't finish forever ...</p>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>https://link-and-motivation.hatenablog.com/entry/2022/09/29/090000</li>
+<li>https://qiita.com/suin/items/122946f7d0cd13b143f9</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../blog/deploy_mdbook_on_cloudflare_page_and_github_action.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../blog/performance_api_in_nodejs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../blog/graceful_shutdown.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -225,13 +248,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../blog/deploy_mdbook_on_cloudflare_page_and_github_action.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../blog/performance_api_in_nodejs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../blog/graceful_shutdown.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>
