@@ -19,12 +19,12 @@ jobs:
           mdbook-version: 'latest'
 
       - name: Cache cargo registry
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
-            - /.cargo/registry
-            - /.cargo/git
-            - /.cargo/bin
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock' )}}
 
       - name: Install mdbook-mermaid
