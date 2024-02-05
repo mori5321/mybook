@@ -7,7 +7,7 @@ This is a memorandum for myself.
 I use neovim built-in lsp and Mason.
 For language-server, I use clangd (installed with `MasonInstall clangd`).
 
-``` init.lua
+```lua
 // ...
 require("mason").setup()
 require("mason-lspconfig").setup()
@@ -35,7 +35,7 @@ require("mason-lspconfig").setup_handlers({
 
 
 ## 2. Write CmakeLists.txt
-I write CMaikeLists.txt for my building.
+I write CMakeLists.txt for my building.
 
 ```
 cmake_minimum_required(VERSION 3.1)
@@ -63,7 +63,7 @@ Let's exec make. Keep in mind that you need to add `-DCMAKE_EXPORT_COMPILE_COMMA
 This option let the cmake generates `compile_commands.json`. 
 clangd language-server read this file for complement.
 
-```
+```zsh
 mkdir build
 cd build
 
@@ -72,14 +72,14 @@ cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
 
 ## 4. link complie_commands.json to the project root.
 
-```
+```zsh
 cd /move/to/project/root
 ln -s build/compile_commands.json .
 ```
 
 ## 5. (build)
 
-```
+```zsh
 cd build
 cmake --build .
 ```

@@ -6,4 +6,6 @@
   - [Performance API in Node.js](./blog/performance_api_in_nodejs.md)
   - [Graceful Shutdown in your web application](./blog/graceful_shutdown.md)
   - [Make Neovim LSP Work well for C++/OpenCV with CMake](./blog/cmake_with_neovim_lsp.md)
+  - [Bit Operation Pattern Useful in Algorithm Competition](./blog/bit_operation_pattern_useful_in_algorithm_competition.md)
+  - [Timezone Best Practice](./blog/timezone.md)
 
