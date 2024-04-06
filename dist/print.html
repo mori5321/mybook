@@ -205,34 +205,34 @@
 </ul>
 <h2 id="principles-of-error-handling"><a class="header" href="#principles-of-error-handling">Principles of Error Handling</a></h2>
 <h3 id="avoid-delegating-error-handling-to-upstream-as-much-as-possible"><a class="header" href="#avoid-delegating-error-handling-to-upstream-as-much-as-possible">Avoid delegating Error Handling to upstream as much as possible</a></h3>
-<p>The deeper the hierarchy, the more complex and difficult it becomes to follow the process. 
-<em>It's good that upstream just do &quot;Logging Error&quot; about Error Handling.</em> 
+<p>The deeper the hierarchy, the more complex and difficult it becomes to follow the process.
+<em>It's good that upstream just do "Logging Error" about Error Handling.</em>
 <em>Handling other than logging should be done close to the process calling.</em></p>
 <h3 id="avoid-defining-custom-error-as-much-as-possible"><a class="header" href="#avoid-defining-custom-error-as-much-as-possible">Avoid defining Custom Error as much as possible.</a></h3>
-<p>Custom Error involves delegating error handling to upstream. 
+<p>Custom Error involves delegating error handling to upstream.
 Let's handle errors as close to the process as possible.</p>
 <h3 id="if-your-error-message-is-good-you-dont-need-stacktrace"><a class="header" href="#if-your-error-message-is-good-you-dont-need-stacktrace">If your error message is good, you don't need stacktrace.</a></h3>
-<p>Stacktrace shows its value only when error message is not useful. </p>
+<p>Stacktrace shows its value only when error message is not useful.</p>
 <h2 id="wrap--unwrap"><a class="header" href="#wrap--unwrap">Wrap &amp; Unwrap</a></h2>
 <p>Go 1.13 supports Wrap/Unwrap.</p>
-<p>This is a common case before Go 1.13. </p>
+<p>This is a common case before Go 1.13.</p>
 <pre><code class="language-go:sample.go">// Error Containing Another Error.
 type QueryError struct {
     Query string
     Err   error
 }
 
-func (e *QueryError) Error() string { return e.Query + &quot;: &quot; + e.Err.Error() }
+func (e *QueryError) Error() string { return e.Query + ": " + e.Err.Error() }
 </code></pre>
 <p>The pattern of one error containing another error is pervasive(common). So, Go 1.13 supports for it.</p>
 <h3 id="wrap"><a class="header" href="#wrap">Wrap</a></h3>
-<p>You can wrap error by %w. </p>
+<p>You can wrap error by %w.</p>
 <pre><code class="language-go:sample.go">if err != nil {
-  return fmt.Errorf(&quot;QueryError %w&quot;, err);
+  return fmt.Errorf("QueryError %w", err);
 }
 </code></pre>
 <h3 id="unwrap"><a class="header" href="#unwrap">Unwrap</a></h3>
-<p>errors.Is<code>or</code>errors.As` recursively checks the wrapped error (It calls Unwrap() internally). </p>
+<p>errors.Is<code>or</code>errors.As` recursively checks the wrapped error (It calls Unwrap() internally).</p>
 <pre><code class="language-go:sample.go">if errors.Is(err, ErrPermission) {
   // Some ErrorHandling 
 }
@@ -242,7 +242,7 @@ func (e *QueryError) Error() string { return e.Query + &quot;: &quot; + e.Err.Er
 <h3 id="ex1-parser"><a class="header" href="#ex1-parser">Ex1. Parser</a></h3>
 <p>Imagine Parser which reads a complex data structure. If an error occurs, we wish to report the line and column number at whitch it occurred. It makes sense to expose the error produced by it.</p>
 <h3 id="ex2-database-caller"><a class="header" href="#ex2-database-caller">Ex2. Database Caller</a></h3>
-<p>Imagine Function which makes several calls to a database. It should not return an error which unwrap s to the result of one of those calls. If the database used by the function is an implementation detail, then exposes errors is a violation of abstraction. </p>
+<p>Imagine Function which makes several calls to a database. It should not return an error which unwrap s to the result of one of those calls. If the database used by the function is an implementation detail, then exposes errors is a violation of abstraction.</p>
 <pre><code class="language-go:bad_example.go">// BAD: Abstraction Violation.
 // If you wrap sql.ErrNoRows, your caller need to know sql.ErrNoRows to handle the error.
 err := repo.LookupUser
@@ -282,14 +282,14 @@ sequenceDiagram
 <p>Here's a step-by-step breakdown of the workflow.</p>
 <ol start="0">
 <li>Trigger Workflow: The workflow is triggered when commit pushed on main branch.</li>
-<li>Checkout: The workflow begins by checking out the repository using the actions/checkout@v4 action. </li>
+<li>Checkout: The workflow begins by checking out the repository using the actions/checkout@v4 action.</li>
 <li>Setup mdBook: Next, the workflow sets up mdBook (a tool to create online books from Markdown files) using the peaceiris/actions-mdbook@v1 action.</li>
 <li>Build Docs: The mdbook build -d dist command is then run to compile the Markdown files into a book, placing the output in the <code>dist</code> directory. I specified <code>dist</code> because default <code>book</code> directory is ignored by <code>.gitignore</code>.</li>
-<li>Archive <code>dist</code>: The contents of the <code>dist</code> directory are then archived using the actions/upload-artifact@v3 action. </li>
+<li>Archive <code>dist</code>: The contents of the <code>dist</code> directory are then archived using the actions/upload-artifact@v3 action.</li>
 <li>Checkout Production Branch: In this step, the workflow checks out the production branch of the repository using the actions/checkout@v4 action. This branch is intended for the deployed version of the book.</li>
 <li>Download dist: The workflow then downloads the archived dist directory from the previous job using the actions/download-artifact@v3 action.</li>
 <li>Commit on production branch: The workflow updates the production branch with the new version of book(<code>dist</code>).</li>
-<li>Cloudflare Pages auto deploy production branch: In cloudflare page settings, choose <code>production</code> branch as a deploy branch, <code>dist</code> as a build output directory. </li>
+<li>Cloudflare Pages auto deploy production branch: In cloudflare page settings, choose <code>production</code> branch as a deploy branch, <code>dist</code> as a build output directory.</li>
 </ol>
 <pre><code class="language-yml">name: Deployment
 on:
@@ -297,8 +297,8 @@ on:
     branches:
       - main
     paths:
-      - &quot;src/**.md&quot;
-      - &quot;book.toml&quot;
+      - "src/**.md"
+      - "book.toml"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -344,7 +344,7 @@ jobs:
           git config --global user.name 'Github Actions'
           git config --global user.email 'actions@github.com'
           git add .
-          git commit -m &quot;Deploy book to production&quot;
+          git commit -m "Deploy book to production"
           git push
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="web-performance-api-in-nodejs--browser"><a class="header" href="#web-performance-api-in-nodejs--browser">Web Performance API in (Node.js / Browser)</a></h1>
@@ -383,9 +383,9 @@ jobs:
 <div style="break-before: page; page-break-before: always;"></div><h1 id="graceful-shutdown-on-your-web-application"><a class="header" href="#graceful-shutdown-on-your-web-application">Graceful Shutdown on your web application.</a></h1>
 <h2 id="what-is-a-problem"><a class="header" href="#what-is-a-problem">What is a problem?</a></h2>
 <p>When you want to deploy your application frequently (e.g. every 5 minutes), it means you shutdown old application regularly.
-While shutting down the process, if some requests are aborted, it is an incident. We need to wait for these process to be done. </p>
+While shutting down the process, if some requests are aborted, it is an incident. We need to wait for these process to be done.</p>
 <h2 id="sigterm"><a class="header" href="#sigterm">SIGTERM</a></h2>
-<p>SIGTERM is a process to &quot;require&quot; &quot;termination, whereas SIGKILL is a process to &quot;force&quot; termination.</p>
+<p>SIGTERM is a process to "require" "termination, whereas SIGKILL is a process to "force" termination.</p>
 <p>In these modern days, most of the cloud service send <code>SIGTERM</code> at first when it finishes processes. Then, x seconds after, it sends <code>SIGKILL</code>.</p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: right">system</th><th style="text-align: right">default behavior</th></tr></thead><tbody>
 <tr><td style="text-align: right">k8s</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
@@ -440,26 +440,26 @@ While shutting down the process, if some requests are aborted, it is an incident
 <li>https://qiita.com/suin/items/122946f7d0cd13b143f9</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="0-background"><a class="header" href="#0-background">0. Background</a></h2>
-<p>I wrote video processing program with C++/clang++/OpenCV. 
-I wanted to make the complement for OpenCV work well on my neovim. 
-This is a memorandum for myself. </p>
+<p>I wrote video processing program with C++/clang++/OpenCV.
+I wanted to make the complement for OpenCV work well on my neovim.
+This is a memorandum for myself.</p>
 <h2 id="1-check-the-lspconfig"><a class="header" href="#1-check-the-lspconfig">1. Check the lspconfig</a></h2>
 <p>I use neovim built-in lsp and Mason.
 For language-server, I use clangd (installed with <code>MasonInstall clangd</code>).</p>
 <pre><code class="language-lua">// ...
-require(&quot;mason&quot;).setup()
-require(&quot;mason-lspconfig&quot;).setup()
-require(&quot;mason-lspconfig&quot;).setup_handlers({
+require("mason").setup()
+require("mason-lspconfig").setup()
+require("mason-lspconfig").setup_handlers({
 
 	function(server_name) -- default handler (optional)
-		lspconfig = require(&quot;lspconfig&quot;)
+		lspconfig = require("lspconfig")
 
-		if server_name == &quot;tsserver&quot; then
+		if server_name == "tsserver" then
             // ...
-		elseif server_name == &quot;clangd&quot; then
+		elseif server_name == "clangd" then
 			lspconfig[server_name].setup({
 				on_attach = on_attach,
-				filetypes = { &quot;c&quot;, &quot;cpp&quot; },
+				filetypes = { "c", "cpp" },
 			})
 		else
 			lspconfig[server_name].setup({
@@ -492,8 +492,8 @@ add_executable(main_app main.cpp)
 target_link_libraries(main_app ${OpenCV_LIBS})
 </code></pre>
 <h2 id="3-exec-cmake"><a class="header" href="#3-exec-cmake">3. Exec CMake</a></h2>
-<p>Let's exec make. Keep in mind that you need to add <code>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code>. 
-This option let the cmake generates <code>compile_commands.json</code>. 
+<p>Let's exec make. Keep in mind that you need to add <code>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code>.
+This option let the cmake generates <code>compile_commands.json</code>.
 clangd language-server read this file for complement.</p>
 <pre><code class="language-zsh">mkdir build
 cd build

@@ -201,34 +201,34 @@
 </ul>
 <h2 id="principles-of-error-handling"><a class="header" href="#principles-of-error-handling">Principles of Error Handling</a></h2>
 <h3 id="avoid-delegating-error-handling-to-upstream-as-much-as-possible"><a class="header" href="#avoid-delegating-error-handling-to-upstream-as-much-as-possible">Avoid delegating Error Handling to upstream as much as possible</a></h3>
-<p>The deeper the hierarchy, the more complex and difficult it becomes to follow the process. 
-<em>It's good that upstream just do &quot;Logging Error&quot; about Error Handling.</em> 
+<p>The deeper the hierarchy, the more complex and difficult it becomes to follow the process.
+<em>It's good that upstream just do "Logging Error" about Error Handling.</em>
 <em>Handling other than logging should be done close to the process calling.</em></p>
 <h3 id="avoid-defining-custom-error-as-much-as-possible"><a class="header" href="#avoid-defining-custom-error-as-much-as-possible">Avoid defining Custom Error as much as possible.</a></h3>
-<p>Custom Error involves delegating error handling to upstream. 
+<p>Custom Error involves delegating error handling to upstream.
 Let's handle errors as close to the process as possible.</p>
 <h3 id="if-your-error-message-is-good-you-dont-need-stacktrace"><a class="header" href="#if-your-error-message-is-good-you-dont-need-stacktrace">If your error message is good, you don't need stacktrace.</a></h3>
-<p>Stacktrace shows its value only when error message is not useful. </p>
+<p>Stacktrace shows its value only when error message is not useful.</p>
 <h2 id="wrap--unwrap"><a class="header" href="#wrap--unwrap">Wrap &amp; Unwrap</a></h2>
 <p>Go 1.13 supports Wrap/Unwrap.</p>
-<p>This is a common case before Go 1.13. </p>
+<p>This is a common case before Go 1.13.</p>
 <pre><code class="language-go:sample.go">// Error Containing Another Error.
 type QueryError struct {
     Query string
     Err   error
 }
 
-func (e *QueryError) Error() string { return e.Query + &quot;: &quot; + e.Err.Error() }
+func (e *QueryError) Error() string { return e.Query + ": " + e.Err.Error() }
 </code></pre>
 <p>The pattern of one error containing another error is pervasive(common). So, Go 1.13 supports for it.</p>
 <h3 id="wrap"><a class="header" href="#wrap">Wrap</a></h3>
-<p>You can wrap error by %w. </p>
+<p>You can wrap error by %w.</p>
 <pre><code class="language-go:sample.go">if err != nil {
-  return fmt.Errorf(&quot;QueryError %w&quot;, err);
+  return fmt.Errorf("QueryError %w", err);
 }
 </code></pre>
 <h3 id="unwrap"><a class="header" href="#unwrap">Unwrap</a></h3>
-<p>errors.Is<code>or</code>errors.As` recursively checks the wrapped error (It calls Unwrap() internally). </p>
+<p>errors.Is<code>or</code>errors.As` recursively checks the wrapped error (It calls Unwrap() internally).</p>
 <pre><code class="language-go:sample.go">if errors.Is(err, ErrPermission) {
   // Some ErrorHandling 
 }
@@ -238,7 +238,7 @@ func (e *QueryError) Error() string { return e.Query + &quot;: &quot; + e.Err.Er
 <h3 id="ex1-parser"><a class="header" href="#ex1-parser">Ex1. Parser</a></h3>
 <p>Imagine Parser which reads a complex data structure. If an error occurs, we wish to report the line and column number at whitch it occurred. It makes sense to expose the error produced by it.</p>
 <h3 id="ex2-database-caller"><a class="header" href="#ex2-database-caller">Ex2. Database Caller</a></h3>
-<p>Imagine Function which makes several calls to a database. It should not return an error which unwrap s to the result of one of those calls. If the database used by the function is an implementation detail, then exposes errors is a violation of abstraction. </p>
+<p>Imagine Function which makes several calls to a database. It should not return an error which unwrap s to the result of one of those calls. If the database used by the function is an implementation detail, then exposes errors is a violation of abstraction.</p>
 <pre><code class="language-go:bad_example.go">// BAD: Abstraction Violation.
 // If you wrap sql.ErrNoRows, your caller need to know sql.ErrNoRows to handle the error.
 err := repo.LookupUser

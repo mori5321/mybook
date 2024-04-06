@@ -175,26 +175,26 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="0-background"><a class="header" href="#0-background">0. Background</a></h2>
-<p>I wrote video processing program with C++/clang++/OpenCV. 
-I wanted to make the complement for OpenCV work well on my neovim. 
-This is a memorandum for myself. </p>
+<p>I wrote video processing program with C++/clang++/OpenCV.
+I wanted to make the complement for OpenCV work well on my neovim.
+This is a memorandum for myself.</p>
 <h2 id="1-check-the-lspconfig"><a class="header" href="#1-check-the-lspconfig">1. Check the lspconfig</a></h2>
 <p>I use neovim built-in lsp and Mason.
 For language-server, I use clangd (installed with <code>MasonInstall clangd</code>).</p>
 <pre><code class="language-lua">// ...
-require(&quot;mason&quot;).setup()
-require(&quot;mason-lspconfig&quot;).setup()
-require(&quot;mason-lspconfig&quot;).setup_handlers({
+require("mason").setup()
+require("mason-lspconfig").setup()
+require("mason-lspconfig").setup_handlers({
 
 	function(server_name) -- default handler (optional)
-		lspconfig = require(&quot;lspconfig&quot;)
+		lspconfig = require("lspconfig")
 
-		if server_name == &quot;tsserver&quot; then
+		if server_name == "tsserver" then
             // ...
-		elseif server_name == &quot;clangd&quot; then
+		elseif server_name == "clangd" then
 			lspconfig[server_name].setup({
 				on_attach = on_attach,
-				filetypes = { &quot;c&quot;, &quot;cpp&quot; },
+				filetypes = { "c", "cpp" },
 			})
 		else
 			lspconfig[server_name].setup({
@@ -227,8 +227,8 @@ add_executable(main_app main.cpp)
 target_link_libraries(main_app ${OpenCV_LIBS})
 </code></pre>
 <h2 id="3-exec-cmake"><a class="header" href="#3-exec-cmake">3. Exec CMake</a></h2>
-<p>Let's exec make. Keep in mind that you need to add <code>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code>. 
-This option let the cmake generates <code>compile_commands.json</code>. 
+<p>Let's exec make. Keep in mind that you need to add <code>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code>.
+This option let the cmake generates <code>compile_commands.json</code>.
 clangd language-server read this file for complement.</p>
 <pre><code class="language-zsh">mkdir build
 cd build

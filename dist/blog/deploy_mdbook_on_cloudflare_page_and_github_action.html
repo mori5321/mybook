@@ -195,14 +195,14 @@ sequenceDiagram
 <p>Here's a step-by-step breakdown of the workflow.</p>
 <ol start="0">
 <li>Trigger Workflow: The workflow is triggered when commit pushed on main branch.</li>
-<li>Checkout: The workflow begins by checking out the repository using the actions/checkout@v4 action. </li>
+<li>Checkout: The workflow begins by checking out the repository using the actions/checkout@v4 action.</li>
 <li>Setup mdBook: Next, the workflow sets up mdBook (a tool to create online books from Markdown files) using the peaceiris/actions-mdbook@v1 action.</li>
 <li>Build Docs: The mdbook build -d dist command is then run to compile the Markdown files into a book, placing the output in the <code>dist</code> directory. I specified <code>dist</code> because default <code>book</code> directory is ignored by <code>.gitignore</code>.</li>
-<li>Archive <code>dist</code>: The contents of the <code>dist</code> directory are then archived using the actions/upload-artifact@v3 action. </li>
+<li>Archive <code>dist</code>: The contents of the <code>dist</code> directory are then archived using the actions/upload-artifact@v3 action.</li>
 <li>Checkout Production Branch: In this step, the workflow checks out the production branch of the repository using the actions/checkout@v4 action. This branch is intended for the deployed version of the book.</li>
 <li>Download dist: The workflow then downloads the archived dist directory from the previous job using the actions/download-artifact@v3 action.</li>
 <li>Commit on production branch: The workflow updates the production branch with the new version of book(<code>dist</code>).</li>
-<li>Cloudflare Pages auto deploy production branch: In cloudflare page settings, choose <code>production</code> branch as a deploy branch, <code>dist</code> as a build output directory. </li>
+<li>Cloudflare Pages auto deploy production branch: In cloudflare page settings, choose <code>production</code> branch as a deploy branch, <code>dist</code> as a build output directory.</li>
 </ol>
 <pre><code class="language-yml">name: Deployment
 on:
@@ -210,8 +210,8 @@ on:
     branches:
       - main
     paths:
-      - &quot;src/**.md&quot;
-      - &quot;book.toml&quot;
+      - "src/**.md"
+      - "book.toml"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -257,7 +257,7 @@ jobs:
           git config --global user.name 'Github Actions'
           git config --global user.email 'actions@github.com'
           git add .
-          git commit -m &quot;Deploy book to production&quot;
+          git commit -m "Deploy book to production"
           git push
 </code></pre>
 
