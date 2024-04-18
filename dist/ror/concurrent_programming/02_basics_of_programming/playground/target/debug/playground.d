@@ -1,0 +1,1 @@
+/Users/nishimoridaisuke/dev/mybook/src/ror/concurrent_programming/02_basics_of_programming/playground/target/debug/playground: /Users/nishimoridaisuke/dev/mybook/src/ror/concurrent_programming/02_basics_of_programming/playground/src/main.rs
