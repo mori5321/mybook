@@ -90,7 +90,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="blog.html"><strong aria-hidden="true">1.</strong> Blog</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.1.</strong> Learn Error Handling From Golang</a></li><li class="chapter-item expanded "><a href="blog/deploy_mdbook_on_cloudflare_page_and_github_action.html"><strong aria-hidden="true">1.2.</strong> Deploy mdbook on Cloudflare Page and Github Action</a></li><li class="chapter-item expanded "><a href="blog/performance_api_in_nodejs.html"><strong aria-hidden="true">1.3.</strong> Performance API in Node.js</a></li><li class="chapter-item expanded "><a href="blog/graceful_shutdown.html"><strong aria-hidden="true">1.4.</strong> Graceful Shutdown in your web application</a></li><li class="chapter-item expanded "><a href="blog/cmake_with_neovim_lsp.html"><strong aria-hidden="true">1.5.</strong> Make Neovim LSP Work well for C++/OpenCV with CMake</a></li><li class="chapter-item expanded "><a href="blog/bit_operation_pattern_useful_in_algorithm_competition.html"><strong aria-hidden="true">1.6.</strong> Bit Operation Pattern Useful in Algorithm Competition</a></li><li class="chapter-item expanded "><a href="blog/timezone.html"><strong aria-hidden="true">1.7.</strong> Timezone Best Practice</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="blog/en.html"><strong aria-hidden="true">1.</strong> Blog:en</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/en/bit_operation_pattern_useful_in_algorithm_competition.html"><strong aria-hidden="true">1.1.</strong> 2024-02-25 :: Bit Operation Pattern Useful in Algorithm Competition</a></li><li class="chapter-item expanded "><a href="blog/en/cmake_with_neovim_lsp.html"><strong aria-hidden="true">1.2.</strong> 2024-02-24 :: Make Neovim LSP Work well for C++/OpenCV with CMake</a></li><li class="chapter-item expanded "><a href="blog/en/graceful_shutdown.html"><strong aria-hidden="true">1.3.</strong> 2024-02-12 :: Graceful Shutdown in your web application</a></li><li class="chapter-item expanded "><a href="blog/en/deploy_mdbook_on_cloudflare_page_and_github_action.html"><strong aria-hidden="true">1.4.</strong> 2024-01-03 :: Deploy mdbook on Cloudflare Page and Github Action</a></li><li class="chapter-item expanded "><a href="blog/en/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.5.</strong> 2023-12-28 :: Learn Error Handling From Golang</a></li><li class="chapter-item expanded "><a href="blog/en/timezone.html"><strong aria-hidden="true">1.6.</strong> TBA:: Timezone Best Practice</a></li></ol></li><li class="chapter-item expanded "><a href="blog/ja.html"><strong aria-hidden="true">2.</strong> Blog:ja</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -175,91 +175,204 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="blog"><a class="header" href="#blog">Blog</a></h1>
-<h2 id="author"><a class="header" href="#author">Author</a></h2>
-<p>@mori5321 (nishimori daisuke)</p>
-<div style="break-before: page; page-break-before: always;"></div><p>2023-12-28</p>
-<h1 id="learning-error-handling-from-golang"><a class="header" href="#learning-error-handling-from-golang">Learning Error Handling From Golang.</a></h1>
-<h2 id="four-patterns-of-error-handling"><a class="header" href="#four-patterns-of-error-handling">Four Patterns of Error Handling</a></h2>
+                        <h1 id="blogen"><a class="header" href="#blogen">Blog:en</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bit-operation-pattern-useful-in-algorithm-competion"><a class="header" href="#bit-operation-pattern-useful-in-algorithm-competion">Bit Operation Pattern Useful in Algorithm Competion</a></h1>
+<h2 id="left-bit-shift--for-2--n"><a class="header" href="#left-bit-shift--for-2--n">Left Bit Shift (&lt;&lt;) for 2 ^ N</a></h2>
+<pre><code class="language-c++">// This is 2^N
+1 &lt;&lt; N
+
+1 &lt;&lt; 2 == 000100 == 4  (2^2) 
+1 &lt;&lt; 3 == 001000 == 8  (2^3)
+1 &lt;&lt; 4 == 010000 == 16 (2^4)
+</code></pre>
+<h2 id="inttobitvector-right-bit-shift-to-identify-the-value-of-a-particular-digit-in-a-bit"><a class="header" href="#inttobitvector-right-bit-shift-to-identify-the-value-of-a-particular-digit-in-a-bit">intToBitVector (Right bit shift to identify the value of a particular digit in a bit)</a></h2>
+<p>Make <code>int</code> converted into <code>vector&lt;int&gt;</code>.
+This is used in the following <code>Bit Blute-force Search</code>.</p>
+<pre><code class="language-c++">vector&lt;int&gt; intToBitVector(int target, int bitDigit) {
+  vector&lt;int&gt; S(N);
+
+  for (int i = 0; i &lt; bitDigit; ++i) {
+    S[i] = (target &gt;&gt; i) &amp; 1
+  };
+
+
+  return S;
+} 
+
+intToBitVector(5); 
+// =&gt; vector&lt;int&gt;({ 1, 0, 1 })
+
+intToBitVector(36); 
+// =&gt; vector&lt;int&gt;({ 1, 0, 0, 1, 0, 0 })
+</code></pre>
+<p>Q. How can we identify the value of a particular digit in a bit?
+A. Right Bit Shift &amp; 1.</p>
+<pre><code class="language-c++">
+Ex1) -------------------
+target digit = 32
+
+(32 &gt;&gt; 0) &amp; 1 == 100000 &amp; 000001 == 000000 (return 0)
+(32 &gt;&gt; 1) &amp; 2 == 010000 &amp; 000001 == 000000 (return 0)
+(32 &gt;&gt; 1) &amp; 3 == 001000 &amp; 000001 == 000000 (return 0)
+(32 &gt;&gt; 1) &amp; 4 == 000100 &amp; 000001 == 000000 (return 0)
+(32 &gt;&gt; 1) &amp; 5 == 000010 &amp; 000001 == 000000 (return 0)
+(32 &gt;&gt; 1) &amp; 6 == 000001 &amp; 000001 == 000001 (return 1!)
+
+You can identify Digit 6 should be 1 in a bit row of `32`.
+The bit row is `100000`. The function returns `vector&lt;int&gt;({ 1, 0, 0, 0, 0, 0})` 
+
+Ex2) -------------------
+
+target digit = 36
+
+(36 &gt;&gt; 0) &amp; 1 == 100100 &amp; 000001 == 000000 (return 0)
+(36 &gt;&gt; 1) &amp; 2 == 010010 &amp; 000001 == 000000 (return 0)
+(36 &gt;&gt; 1) &amp; 3 == 001001 &amp; 000001 == 000001 (return 1!)
+(36 &gt;&gt; 1) &amp; 4 == 000100 &amp; 000001 == 000000 (return 0)
+(36 &gt;&gt; 1) &amp; 5 == 000010 &amp; 000001 == 000000 (return 0)
+(36 &gt;&gt; 1) &amp; 6 == 000001 &amp; 000001 == 000001 (return 1!)
+
+You can identify Digit 6 and Digit 3 should be 1 in a bit row of `32`.
+The bit row is `100100`.  The function returns `vector&lt;int&gt;({ 1, 0, 0, 1, 0, 0})` 
+</code></pre>
+<h2 id="bit-blute-force-search"><a class="header" href="#bit-blute-force-search">Bit Blute-force Search</a></h2>
+<p>This is a code pattern to do Blute-force Search for N Digit Bit.<br />
+It uses Left Bit Shift &amp; Right Bit Shift.</p>
+<pre><code class="language-c++">int bitDigit = 8;
+
+for (int bit = 0; bit &lt; (1 &lt;&lt; bitDigit); ++bit) {
+  vector&lt;int&gt; = intToBitVector(bit, bitDigit)
+
+  // Do Something for your search...
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="0-background"><a class="header" href="#0-background">0. Background</a></h2>
+<p>I wrote video processing program with C++/clang++/OpenCV.
+I wanted to make the complement for OpenCV work well on my neovim.
+This is a memorandum for myself.</p>
+<h2 id="1-check-the-lspconfig"><a class="header" href="#1-check-the-lspconfig">1. Check the lspconfig</a></h2>
+<p>I use neovim built-in lsp and Mason.
+For language-server, I use clangd (installed with <code>MasonInstall clangd</code>).</p>
+<pre><code class="language-lua">// ...
+require("mason").setup()
+require("mason-lspconfig").setup()
+require("mason-lspconfig").setup_handlers({
+
+	function(server_name) -- default handler (optional)
+		lspconfig = require("lspconfig")
+
+		if server_name == "tsserver" then
+            // ...
+		elseif server_name == "clangd" then
+			lspconfig[server_name].setup({
+				on_attach = on_attach,
+				filetypes = { "c", "cpp" },
+			})
+		else
+			lspconfig[server_name].setup({
+				on_attach = on_attach,
+			})
+		end
+	end,
+})
+// ...
+</code></pre>
+<h2 id="2-write-cmakeliststxt"><a class="header" href="#2-write-cmakeliststxt">2. Write CmakeLists.txt</a></h2>
+<p>I write CMakeLists.txt for my building.</p>
+<pre><code>cmake_minimum_required(VERSION 3.1)
+project(HelloOpenCV)
+
+# Activate C+11 (required for OpenCV)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
+# find OpenCV package
+find_package(OpenCV REQUIRED)
+
+# include OpenCV
+include_directories(${OpenCV_INCLUDE_DIRS})
+
+# executable
+add_executable(main_app main.cpp)
+
+# link OpenCV Libs
+target_link_libraries(main_app ${OpenCV_LIBS})
+</code></pre>
+<h2 id="3-exec-cmake"><a class="header" href="#3-exec-cmake">3. Exec CMake</a></h2>
+<p>Let's exec make. Keep in mind that you need to add <code>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code>.
+This option let the cmake generates <code>compile_commands.json</code>.
+clangd language-server read this file for complement.</p>
+<pre><code class="language-zsh">mkdir build
+cd build
+
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+</code></pre>
+<h2 id="4-link-complie_commandsjson-to-the-project-root"><a class="header" href="#4-link-complie_commandsjson-to-the-project-root">4. link complie_commands.json to the project root.</a></h2>
+<pre><code class="language-zsh">cd /move/to/project/root
+ln -s build/compile_commands.json .
+</code></pre>
+<h2 id="5-build"><a class="header" href="#5-build">5. (build)</a></h2>
+<pre><code class="language-zsh">cd build
+cmake --build .
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="graceful-shutdown-on-your-web-application"><a class="header" href="#graceful-shutdown-on-your-web-application">Graceful Shutdown on your web application.</a></h1>
+<h2 id="what-is-a-problem"><a class="header" href="#what-is-a-problem">What is a problem?</a></h2>
+<p>When you want to deploy your application frequently (e.g. every 5 minutes), it means you shutdown old application regularly.
+While shutting down the process, if some requests are aborted, it is an incident. We need to wait for these process to be done.</p>
+<h2 id="sigterm"><a class="header" href="#sigterm">SIGTERM</a></h2>
+<p>SIGTERM is a process to "require" "termination, whereas SIGKILL is a process to "force" termination.</p>
+<p>In these modern days, most of the cloud service send <code>SIGTERM</code> at first when it finishes processes. Then, x seconds after, it sends <code>SIGKILL</code>.</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: right">system</th><th style="text-align: right">default behavior</th></tr></thead><tbody>
+<tr><td style="text-align: right">k8s</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
+<tr><td style="text-align: right">docker stop</td><td style="text-align: right">SIGTERM -&gt; 10 sec -&gt; SIGKILL</td></tr>
+<tr><td style="text-align: right">systemd</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
+<tr><td style="text-align: right">Amazon ECS</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
+</tbody></table>
+</div>
+<h2 id="how-to-implement-grceful-shutdown-on-your-web-application"><a class="header" href="#how-to-implement-grceful-shutdown-on-your-web-application">How to implement Grceful Shutdown on your web application.</a></h2>
+<p>It's very simple.</p>
+<h3 id="for-synchronous-operations-eg-general-api-call"><a class="header" href="#for-synchronous-operations-eg-general-api-call">For Synchronous Operations (e.g. General API call)</a></h3>
 <ul>
 <li>
 <ol>
-<li>Delegate to upstream.</li>
+<li>Accept SIGTERM</li>
 </ol>
 </li>
 <li>
 <ol start="2">
-<li>Log(Provide feedback to User).</li>
+<li>Disable accepting new HTTP(TCP) connections</li>
 </ol>
 </li>
 <li>
 <ol start="3">
-<li>Retry</li>
+<li>Wait for all processing requests to finish</li>
+</ol>
+</li>
+</ul>
+<h3 id="for-asynchrnonous-operations-eg-background-process"><a class="header" href="#for-asynchrnonous-operations-eg-background-process">For Asynchrnonous Operations (e.g. Background Process)</a></h3>
+<ul>
+<li>
+<ol>
+<li>Accept SIGTERM</li>
 </ol>
 </li>
 <li>
-<ol start="4">
-<li>Cease Continuation and Trigger Panic/Exit</li>
+<ol start="2">
+<li>Disable accepting new asynchronous operations</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Wait for all processing operations to finish</li>
 </ol>
 </li>
 </ul>
-<h2 id="principles-of-error-handling"><a class="header" href="#principles-of-error-handling">Principles of Error Handling</a></h2>
-<h3 id="avoid-delegating-error-handling-to-upstream-as-much-as-possible"><a class="header" href="#avoid-delegating-error-handling-to-upstream-as-much-as-possible">Avoid delegating Error Handling to upstream as much as possible</a></h3>
-<p>The deeper the hierarchy, the more complex and difficult it becomes to follow the process.
-<em>It's good that upstream just do "Logging Error" about Error Handling.</em>
-<em>Handling other than logging should be done close to the process calling.</em></p>
-<h3 id="avoid-defining-custom-error-as-much-as-possible"><a class="header" href="#avoid-defining-custom-error-as-much-as-possible">Avoid defining Custom Error as much as possible.</a></h3>
-<p>Custom Error involves delegating error handling to upstream.
-Let's handle errors as close to the process as possible.</p>
-<h3 id="if-your-error-message-is-good-you-dont-need-stacktrace"><a class="header" href="#if-your-error-message-is-good-you-dont-need-stacktrace">If your error message is good, you don't need stacktrace.</a></h3>
-<p>Stacktrace shows its value only when error message is not useful.</p>
-<h2 id="wrap--unwrap"><a class="header" href="#wrap--unwrap">Wrap &amp; Unwrap</a></h2>
-<p>Go 1.13 supports Wrap/Unwrap.</p>
-<p>This is a common case before Go 1.13.</p>
-<pre><code class="language-go:sample.go">// Error Containing Another Error.
-type QueryError struct {
-    Query string
-    Err   error
-}
-
-func (e *QueryError) Error() string { return e.Query + ": " + e.Err.Error() }
-</code></pre>
-<p>The pattern of one error containing another error is pervasive(common). So, Go 1.13 supports for it.</p>
-<h3 id="wrap"><a class="header" href="#wrap">Wrap</a></h3>
-<p>You can wrap error by %w.</p>
-<pre><code class="language-go:sample.go">if err != nil {
-  return fmt.Errorf("QueryError %w", err);
-}
-</code></pre>
-<h3 id="unwrap"><a class="header" href="#unwrap">Unwrap</a></h3>
-<p>errors.Is<code>or</code>errors.As` recursively checks the wrapped error (It calls Unwrap() internally).</p>
-<pre><code class="language-go:sample.go">if errors.Is(err, ErrPermission) {
-  // Some ErrorHandling 
-}
-</code></pre>
-<h2 id="whether-to-wrap-or-not"><a class="header" href="#whether-to-wrap-or-not">Whether to Wrap or Not?</a></h2>
-<p>It depends on the context. Do not wrap an errror when doing so would expose implementation details. You should care about <em>Abstraction Violation</em>.</p>
-<h3 id="ex1-parser"><a class="header" href="#ex1-parser">Ex1. Parser</a></h3>
-<p>Imagine Parser which reads a complex data structure. If an error occurs, we wish to report the line and column number at whitch it occurred. It makes sense to expose the error produced by it.</p>
-<h3 id="ex2-database-caller"><a class="header" href="#ex2-database-caller">Ex2. Database Caller</a></h3>
-<p>Imagine Function which makes several calls to a database. It should not return an error which unwrap s to the result of one of those calls. If the database used by the function is an implementation detail, then exposes errors is a violation of abstraction.</p>
-<pre><code class="language-go:bad_example.go">// BAD: Abstraction Violation.
-// If you wrap sql.ErrNoRows, your caller need to know sql.ErrNoRows to handle the error.
-err := repo.LookupUser
-if errors.Is(err, sql.ErrNoRows)
-</code></pre>
-<h3 id="conclusion-whether-to-wrap"><a class="header" href="#conclusion-whether-to-wrap">Conclusion: Whether to wrap</a></h3>
-<ul>
-<li>Whether you wrap or not, the error text will be the same. User gets the same information either way.</li>
-<li>The choice to wrap is about whether to give programs additional infomation so that they can make more informed decisions or to withhold that information to preserve an abstraction layer</li>
-</ul>
+<p>In order to wait for all requests to finish, we just set a grace period between SIGTERM -&gt; SIGKILL to match the exepected maximum execution time of processes.</p>
+<p>But, if it's too long, you'll see the phenonmenon that deploy doesn't finish forever ...</p>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
-<li><a href="https://earthly.dev/blog/golang-errors/">Golang Errors</a></li>
-<li><a href="https://go.dev/blog/go1.13-errors">Working with Errors in Go1.13</a></li>
-<li><a href="https://go.dev/blog/error-handling-and-go">Error Handling and Go</a></li>
-<li><a href="https://zenn.dev/nobonobo/articles/0b722c9c2b18d5#%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%8F%E3%83%B3%E3%83%89%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%AE%EF%BC%94%E7%A8%AE">Go Error Handling Strategy / Goエラーハンドリング戦略</a></li>
-<li><a href="https://debimate.jp/2021/12/14/">errors package Unwrap Is As</a></li>
+<li>https://link-and-motivation.hatenablog.com/entry/2022/09/29/090000</li>
+<li>https://qiita.com/suin/items/122946f7d0cd13b143f9</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><p>2024-01-03</p>
 <h1 id="deploy-mdbook-on-cloudflare-page-and-github-action"><a class="header" href="#deploy-mdbook-on-cloudflare-page-and-github-action">Deploy mdbook on Cloudflare Page and Github Action</a></h1>
@@ -347,237 +460,89 @@ jobs:
           git commit -m "Deploy book to production"
           git push
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="web-performance-api-in-nodejs--browser"><a class="header" href="#web-performance-api-in-nodejs--browser">Web Performance API in (Node.js / Browser)</a></h1>
-<h2 id="basic-api"><a class="header" href="#basic-api">Basic API</a></h2>
-<h3 id="performancenow"><a class="header" href="#performancenow">performance.now</a></h3>
-<p>TBA</p>
-<h3 id="performancemark--performancemeasure--performanceobserver"><a class="header" href="#performancemark--performancemeasure--performanceobserver">performance.mark / performance.measure / PerformanceObserver</a></h3>
-<p>TBA</p>
-<h3 id="performanceeventlooputilization"><a class="header" href="#performanceeventlooputilization">performance.eventLoopUtilization</a></h3>
-<p>TBA</p>
-<h3 id="performanceclearmarks--performanceclearmeasures--performanceclearresourcetimings"><a class="header" href="#performanceclearmarks--performanceclearmeasures--performanceclearresourcetimings">performance.clearMarks / performance.clearMeasures / performance.clearResourceTimings</a></h3>
-<p>TBA</p>
-<h2 id="nodejs-specific-features"><a class="header" href="#nodejs-specific-features">Node.js Specific Features</a></h2>
-<h3 id="performancetimerify"><a class="header" href="#performancetimerify">performance.timerify</a></h3>
-<p>TBA</p>
-<h2 id="browser-specific-features"><a class="header" href="#browser-specific-features">Browser Specific Features</a></h2>
-<p>TBA</p>
-<h1 id="references-1"><a class="header" href="#references-1">References</a></h1>
-<ul>
-<li>
-<p><a href="https://nodejs.org/api/perf_hooks.html">Node.js: Perf Hooks</a></p>
-</li>
-<li>
-<p><a href="https://w3c.github.io/perf-timing-primer/">Web Performance API</a></p>
-</li>
-<li>
-<p><a href="https://qiita.com/makotot/items/70bd392a62afd43d3189">Browser; Web Performance API</a></p>
-</li>
-<li>
-<p>https://kinsta.com/jp/blog/performance-api/</p>
-</li>
-<li>
-<p>https://blog.bokken.io/articles/2023-04-30/timing-related-apis.html</p>
-</li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="graceful-shutdown-on-your-web-application"><a class="header" href="#graceful-shutdown-on-your-web-application">Graceful Shutdown on your web application.</a></h1>
-<h2 id="what-is-a-problem"><a class="header" href="#what-is-a-problem">What is a problem?</a></h2>
-<p>When you want to deploy your application frequently (e.g. every 5 minutes), it means you shutdown old application regularly.
-While shutting down the process, if some requests are aborted, it is an incident. We need to wait for these process to be done.</p>
-<h2 id="sigterm"><a class="header" href="#sigterm">SIGTERM</a></h2>
-<p>SIGTERM is a process to "require" "termination, whereas SIGKILL is a process to "force" termination.</p>
-<p>In these modern days, most of the cloud service send <code>SIGTERM</code> at first when it finishes processes. Then, x seconds after, it sends <code>SIGKILL</code>.</p>
-<div class="table-wrapper"><table><thead><tr><th style="text-align: right">system</th><th style="text-align: right">default behavior</th></tr></thead><tbody>
-<tr><td style="text-align: right">k8s</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
-<tr><td style="text-align: right">docker stop</td><td style="text-align: right">SIGTERM -&gt; 10 sec -&gt; SIGKILL</td></tr>
-<tr><td style="text-align: right">systemd</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
-<tr><td style="text-align: right">Amazon ECS</td><td style="text-align: right">SIGTERM -&gt; 30 sec -&gt; SIGKILL</td></tr>
-</tbody></table>
-</div>
-<h2 id="how-to-implement-grceful-shutdown-on-your-web-application"><a class="header" href="#how-to-implement-grceful-shutdown-on-your-web-application">How to implement Grceful Shutdown on your web application.</a></h2>
-<p>It's very simple.</p>
-<h3 id="for-synchronous-operations-eg-general-api-call"><a class="header" href="#for-synchronous-operations-eg-general-api-call">For Synchronous Operations (e.g. General API call)</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><p>2023-12-28</p>
+<h1 id="learning-error-handling-from-golang"><a class="header" href="#learning-error-handling-from-golang">Learning Error Handling From Golang.</a></h1>
+<h2 id="four-patterns-of-error-handling"><a class="header" href="#four-patterns-of-error-handling">Four Patterns of Error Handling</a></h2>
 <ul>
 <li>
 <ol>
-<li>Accept SIGTERM</li>
+<li>Delegate to upstream.</li>
 </ol>
 </li>
 <li>
 <ol start="2">
-<li>Disable accepting new HTTP(TCP) connections</li>
+<li>Log(Provide feedback to User).</li>
 </ol>
 </li>
 <li>
 <ol start="3">
-<li>Wait for all processing requests to finish</li>
-</ol>
-</li>
-</ul>
-<h3 id="for-asynchrnonous-operations-eg-background-process"><a class="header" href="#for-asynchrnonous-operations-eg-background-process">For Asynchrnonous Operations (e.g. Background Process)</a></h3>
-<ul>
-<li>
-<ol>
-<li>Accept SIGTERM</li>
+<li>Retry</li>
 </ol>
 </li>
 <li>
-<ol start="2">
-<li>Disable accepting new asynchronous operations</li>
-</ol>
-</li>
-<li>
-<ol start="3">
-<li>Wait for all processing operations to finish</li>
+<ol start="4">
+<li>Cease Continuation and Trigger Panic/Exit</li>
 </ol>
 </li>
 </ul>
-<p>In order to wait for all requests to finish, we just set a grace period between SIGTERM -&gt; SIGKILL to match the exepected maximum execution time of processes.</p>
-<p>But, if it's too long, you'll see the phenonmenon that deploy doesn't finish forever ...</p>
-<h2 id="references-2"><a class="header" href="#references-2">References</a></h2>
-<ul>
-<li>https://link-and-motivation.hatenablog.com/entry/2022/09/29/090000</li>
-<li>https://qiita.com/suin/items/122946f7d0cd13b143f9</li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="0-background"><a class="header" href="#0-background">0. Background</a></h2>
-<p>I wrote video processing program with C++/clang++/OpenCV.
-I wanted to make the complement for OpenCV work well on my neovim.
-This is a memorandum for myself.</p>
-<h2 id="1-check-the-lspconfig"><a class="header" href="#1-check-the-lspconfig">1. Check the lspconfig</a></h2>
-<p>I use neovim built-in lsp and Mason.
-For language-server, I use clangd (installed with <code>MasonInstall clangd</code>).</p>
-<pre><code class="language-lua">// ...
-require("mason").setup()
-require("mason-lspconfig").setup()
-require("mason-lspconfig").setup_handlers({
+<h2 id="principles-of-error-handling"><a class="header" href="#principles-of-error-handling">Principles of Error Handling</a></h2>
+<h3 id="avoid-delegating-error-handling-to-upstream-as-much-as-possible"><a class="header" href="#avoid-delegating-error-handling-to-upstream-as-much-as-possible">Avoid delegating Error Handling to upstream as much as possible</a></h3>
+<p>The deeper the hierarchy, the more complex and difficult it becomes to follow the process.
+<em>It's good that upstream just do "Logging Error" about Error Handling.</em>
+<em>Handling other than logging should be done close to the process calling.</em></p>
+<h3 id="avoid-defining-custom-error-as-much-as-possible"><a class="header" href="#avoid-defining-custom-error-as-much-as-possible">Avoid defining Custom Error as much as possible.</a></h3>
+<p>Custom Error involves delegating error handling to upstream.
+Let's handle errors as close to the process as possible.</p>
+<h3 id="if-your-error-message-is-good-you-dont-need-stacktrace"><a class="header" href="#if-your-error-message-is-good-you-dont-need-stacktrace">If your error message is good, you don't need stacktrace.</a></h3>
+<p>Stacktrace shows its value only when error message is not useful.</p>
+<h2 id="wrap--unwrap"><a class="header" href="#wrap--unwrap">Wrap &amp; Unwrap</a></h2>
+<p>Go 1.13 supports Wrap/Unwrap.</p>
+<p>This is a common case before Go 1.13.</p>
+<pre><code class="language-go:sample.go">// Error Containing Another Error.
+type QueryError struct {
+    Query string
+    Err   error
+}
 
-	function(server_name) -- default handler (optional)
-		lspconfig = require("lspconfig")
-
-		if server_name == "tsserver" then
-            // ...
-		elseif server_name == "clangd" then
-			lspconfig[server_name].setup({
-				on_attach = on_attach,
-				filetypes = { "c", "cpp" },
-			})
-		else
-			lspconfig[server_name].setup({
-				on_attach = on_attach,
-			})
-		end
-	end,
-})
-// ...
+func (e *QueryError) Error() string { return e.Query + ": " + e.Err.Error() }
 </code></pre>
-<h2 id="2-write-cmakeliststxt"><a class="header" href="#2-write-cmakeliststxt">2. Write CmakeLists.txt</a></h2>
-<p>I write CMakeLists.txt for my building.</p>
-<pre><code>cmake_minimum_required(VERSION 3.1)
-project(HelloOpenCV)
-
-# Activate C+11 (required for OpenCV)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-
-# find OpenCV package
-find_package(OpenCV REQUIRED)
-
-# include OpenCV
-include_directories(${OpenCV_INCLUDE_DIRS})
-
-# executable
-add_executable(main_app main.cpp)
-
-# link OpenCV Libs
-target_link_libraries(main_app ${OpenCV_LIBS})
-</code></pre>
-<h2 id="3-exec-cmake"><a class="header" href="#3-exec-cmake">3. Exec CMake</a></h2>
-<p>Let's exec make. Keep in mind that you need to add <code>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code>.
-This option let the cmake generates <code>compile_commands.json</code>.
-clangd language-server read this file for complement.</p>
-<pre><code class="language-zsh">mkdir build
-cd build
-
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
-</code></pre>
-<h2 id="4-link-complie_commandsjson-to-the-project-root"><a class="header" href="#4-link-complie_commandsjson-to-the-project-root">4. link complie_commands.json to the project root.</a></h2>
-<pre><code class="language-zsh">cd /move/to/project/root
-ln -s build/compile_commands.json .
-</code></pre>
-<h2 id="5-build"><a class="header" href="#5-build">5. (build)</a></h2>
-<pre><code class="language-zsh">cd build
-cmake --build .
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="bit-operation-pattern-useful-in-algorithm-competion"><a class="header" href="#bit-operation-pattern-useful-in-algorithm-competion">Bit Operation Pattern Useful in Algorithm Competion</a></h1>
-<h2 id="left-bit-shift--for-2--n"><a class="header" href="#left-bit-shift--for-2--n">Left Bit Shift (&lt;&lt;) for 2 ^ N</a></h2>
-<pre><code class="language-c++">// This is 2^N
-1 &lt;&lt; N
-
-1 &lt;&lt; 2 == 000100 == 4  (2^2) 
-1 &lt;&lt; 3 == 001000 == 8  (2^3)
-1 &lt;&lt; 4 == 010000 == 16 (2^4)
-</code></pre>
-<h2 id="inttobitvector-right-bit-shift-to-identify-the-value-of-a-particular-digit-in-a-bit"><a class="header" href="#inttobitvector-right-bit-shift-to-identify-the-value-of-a-particular-digit-in-a-bit">intToBitVector (Right bit shift to identify the value of a particular digit in a bit)</a></h2>
-<p>Make <code>int</code> converted into <code>vector&lt;int&gt;</code>.
-This is used in the following <code>Bit Blute-force Search</code>.</p>
-<pre><code class="language-c++">vector&lt;int&gt; intToBitVector(int target, int bitDigit) {
-  vector&lt;int&gt; S(N);
-
-  for (int i = 0; i &lt; bitDigit; ++i) {
-    S[i] = (target &gt;&gt; i) &amp; 1
-  };
-
-
-  return S;
-} 
-
-intToBitVector(5); 
-// =&gt; vector&lt;int&gt;({ 1, 0, 1 })
-
-intToBitVector(36); 
-// =&gt; vector&lt;int&gt;({ 1, 0, 0, 1, 0, 0 })
-</code></pre>
-<p>Q. How can we identify the value of a particular digit in a bit?
-A. Right Bit Shift &amp; 1.</p>
-<pre><code class="language-c++">
-Ex1) -------------------
-target digit = 32
-
-(32 &gt;&gt; 0) &amp; 1 == 100000 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 2 == 010000 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 3 == 001000 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 4 == 000100 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 5 == 000010 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 6 == 000001 &amp; 000001 == 000001 (return 1!)
-
-You can identify Digit 6 should be 1 in a bit row of `32`.
-The bit row is `100000`. The function returns `vector&lt;int&gt;({ 1, 0, 0, 0, 0, 0})` 
-
-Ex2) -------------------
-
-target digit = 36
-
-(36 &gt;&gt; 0) &amp; 1 == 100100 &amp; 000001 == 000000 (return 0)
-(36 &gt;&gt; 1) &amp; 2 == 010010 &amp; 000001 == 000000 (return 0)
-(36 &gt;&gt; 1) &amp; 3 == 001001 &amp; 000001 == 000001 (return 1!)
-(36 &gt;&gt; 1) &amp; 4 == 000100 &amp; 000001 == 000000 (return 0)
-(36 &gt;&gt; 1) &amp; 5 == 000010 &amp; 000001 == 000000 (return 0)
-(36 &gt;&gt; 1) &amp; 6 == 000001 &amp; 000001 == 000001 (return 1!)
-
-You can identify Digit 6 and Digit 3 should be 1 in a bit row of `32`.
-The bit row is `100100`.  The function returns `vector&lt;int&gt;({ 1, 0, 0, 1, 0, 0})` 
-</code></pre>
-<h2 id="bit-blute-force-search"><a class="header" href="#bit-blute-force-search">Bit Blute-force Search</a></h2>
-<p>This is a code pattern to do Blute-force Search for N Digit Bit.<br />
-It uses Left Bit Shift &amp; Right Bit Shift.</p>
-<pre><code class="language-c++">int bitDigit = 8;
-
-for (int bit = 0; bit &lt; (1 &lt;&lt; bitDigit); ++bit) {
-  vector&lt;int&gt; = intToBitVector(bit, bitDigit)
-
-  // Do Something for your search...
+<p>The pattern of one error containing another error is pervasive(common). So, Go 1.13 supports for it.</p>
+<h3 id="wrap"><a class="header" href="#wrap">Wrap</a></h3>
+<p>You can wrap error by %w.</p>
+<pre><code class="language-go:sample.go">if err != nil {
+  return fmt.Errorf("QueryError %w", err);
 }
 </code></pre>
+<h3 id="unwrap"><a class="header" href="#unwrap">Unwrap</a></h3>
+<p>errors.Is<code>or</code>errors.As` recursively checks the wrapped error (It calls Unwrap() internally).</p>
+<pre><code class="language-go:sample.go">if errors.Is(err, ErrPermission) {
+  // Some ErrorHandling 
+}
+</code></pre>
+<h2 id="whether-to-wrap-or-not"><a class="header" href="#whether-to-wrap-or-not">Whether to Wrap or Not?</a></h2>
+<p>It depends on the context. Do not wrap an errror when doing so would expose implementation details. You should care about <em>Abstraction Violation</em>.</p>
+<h3 id="ex1-parser"><a class="header" href="#ex1-parser">Ex1. Parser</a></h3>
+<p>Imagine Parser which reads a complex data structure. If an error occurs, we wish to report the line and column number at whitch it occurred. It makes sense to expose the error produced by it.</p>
+<h3 id="ex2-database-caller"><a class="header" href="#ex2-database-caller">Ex2. Database Caller</a></h3>
+<p>Imagine Function which makes several calls to a database. It should not return an error which unwrap s to the result of one of those calls. If the database used by the function is an implementation detail, then exposes errors is a violation of abstraction.</p>
+<pre><code class="language-go:bad_example.go">// BAD: Abstraction Violation.
+// If you wrap sql.ErrNoRows, your caller need to know sql.ErrNoRows to handle the error.
+err := repo.LookupUser
+if errors.Is(err, sql.ErrNoRows)
+</code></pre>
+<h3 id="conclusion-whether-to-wrap"><a class="header" href="#conclusion-whether-to-wrap">Conclusion: Whether to wrap</a></h3>
+<ul>
+<li>Whether you wrap or not, the error text will be the same. User gets the same information either way.</li>
+<li>The choice to wrap is about whether to give programs additional infomation so that they can make more informed decisions or to withhold that information to preserve an abstraction layer</li>
+</ul>
+<h2 id="references-1"><a class="header" href="#references-1">References</a></h2>
+<ul>
+<li><a href="https://earthly.dev/blog/golang-errors/">Golang Errors</a></li>
+<li><a href="https://go.dev/blog/go1.13-errors">Working with Errors in Go1.13</a></li>
+<li><a href="https://go.dev/blog/error-handling-and-go">Error Handling and Go</a></li>
+<li><a href="https://zenn.dev/nobonobo/articles/0b722c9c2b18d5#%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%8F%E3%83%B3%E3%83%89%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%AE%EF%BC%94%E7%A8%AE">Go Error Handling Strategy / Goエラーハンドリング戦略</a></li>
+<li><a href="https://debimate.jp/2021/12/14/">errors package Unwrap Is As</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="draft"><a class="header" href="#draft">DRAFT</a></h1>
 <p>https://zenn.dev/dmikurube/articles/curse-of-timezones-impl-ja
 https://qiita.com/tonluqclml/items/3affc5328d11b60583a9</p>
@@ -587,6 +552,7 @@ https://www.m3tech.blog/entry/timezone-handling</p>
 https://caddijp.atlassian.net/wiki/spaces/PMGMT/pages/1000144916/Postmortem+2023+08+17+Timezone+was+shifted+one+day
 https://github.com/caddijp/development-policies/blob/main/docs/ja/policies/interface.md</p>
 <p>Software Tradeoffs Mistakes にもあるらしい</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="blogja"><a class="header" href="#blogja">Blog:ja</a></h1>
 
                     </main>
 
