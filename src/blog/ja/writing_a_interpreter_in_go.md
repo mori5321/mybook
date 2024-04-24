@@ -6,15 +6,15 @@
 ```mermaid
 mindmap
     root((Interpreter))
-        core -- process
+        core
             lexer -- 字句解析
             parser -- 構文解析 
             evaluator -- 評価器
-        sub -- material
-            token(トークン)
-            ast(抽象構文木)
-            object(オブジェクト)
-                environment(環境)
+        sub
+            token -- トークン
+            ast -- 抽象構文木
+            object -- オブジェクト
+                environment -- 環境
         utils
             repl(REPL)
             test(テスト)
