@@ -124,3 +124,8 @@ Pratt Parser という Parse 戦略を採用した。
 
 - カバーしなければいけないinputの範囲も膨大、REPLで挙動を把握するのも面倒なので、テスト駆動で書くのは合理的。
 - 小さいモジュールを積み重ねていって、最終的に1つの言語をつくるので テストなしでは挙動を管理しきれない。
+
+
+## References
+- [Writing An Interpreter In Go](https://interpreterbook.com/)
+- [Github 実装](https://github.com/mori5321/monkey)
