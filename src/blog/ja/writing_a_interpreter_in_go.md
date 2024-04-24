@@ -1,7 +1,11 @@
 # 2024-04-32 :: Writing a interpreter in Go 感想文
+![Writing An Interpreter In Go](./images/writing_an_interpreter_in_go.jpeg)
+
+[Writing An Interpreter In Go](https://interpreterbook.com/)
+
 ## 概観
 
-当所でつくった interpreter は以下のような構造になっている
+当書でつくった interpreter は以下のような構造になっている
 
 ```mermaid
 mindmap
@@ -128,4 +132,4 @@ Pratt Parser という Parse 戦略を採用した。
 
 ## References
 - [Writing An Interpreter In Go](https://interpreterbook.com/)
-- [Github 実装](https://github.com/mori5321/monkey)
+- [Github](https://github.com/mori5321/monkey)

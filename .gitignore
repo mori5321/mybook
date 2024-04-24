@@ -64,3 +64,5 @@ dkms.conf
 *.swp
 *.bak
 *.log
+
+.DS_Store
