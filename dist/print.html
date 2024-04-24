@@ -90,7 +90,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="blog/en.html"><strong aria-hidden="true">1.</strong> Blog:en</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/en/bit_operation_pattern_useful_in_algorithm_competition.html"><strong aria-hidden="true">1.1.</strong> 2024-02-25 :: Bit Operation Pattern Useful in Algorithm Competition</a></li><li class="chapter-item expanded "><a href="blog/en/cmake_with_neovim_lsp.html"><strong aria-hidden="true">1.2.</strong> 2024-02-24 :: Make Neovim LSP Work well for C++/OpenCV with CMake</a></li><li class="chapter-item expanded "><a href="blog/en/graceful_shutdown.html"><strong aria-hidden="true">1.3.</strong> 2024-02-12 :: Graceful Shutdown in your web application</a></li><li class="chapter-item expanded "><a href="blog/en/deploy_mdbook_on_cloudflare_page_and_github_action.html"><strong aria-hidden="true">1.4.</strong> 2024-01-03 :: Deploy mdbook on Cloudflare Page and Github Action</a></li><li class="chapter-item expanded "><a href="blog/en/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.5.</strong> 2023-12-28 :: Learn Error Handling From Golang</a></li><li class="chapter-item expanded "><a href="blog/en/timezone.html"><strong aria-hidden="true">1.6.</strong> TBA:: Timezone Best Practice</a></li></ol></li><li class="chapter-item expanded "><a href="blog/ja.html"><strong aria-hidden="true">2.</strong> Blog:ja</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="blog/en.html"><strong aria-hidden="true">1.</strong> Blog:en</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/en/bit_operation_pattern_useful_in_algorithm_competition.html"><strong aria-hidden="true">1.1.</strong> 2024-02-25 :: Bit Operation Pattern Useful in Algorithm Competition</a></li><li class="chapter-item expanded "><a href="blog/en/cmake_with_neovim_lsp.html"><strong aria-hidden="true">1.2.</strong> 2024-02-24 :: Make Neovim LSP Work well for C++/OpenCV with CMake</a></li><li class="chapter-item expanded "><a href="blog/en/graceful_shutdown.html"><strong aria-hidden="true">1.3.</strong> 2024-02-12 :: Graceful Shutdown in your web application</a></li><li class="chapter-item expanded "><a href="blog/en/deploy_mdbook_on_cloudflare_page_and_github_action.html"><strong aria-hidden="true">1.4.</strong> 2024-01-03 :: Deploy mdbook on Cloudflare Page and Github Action</a></li><li class="chapter-item expanded "><a href="blog/en/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.5.</strong> 2023-12-28 :: Learn Error Handling From Golang</a></li><li class="chapter-item expanded "><a href="blog/en/timezone.html"><strong aria-hidden="true">1.6.</strong> TBA:: Timezone Best Practice</a></li></ol></li><li class="chapter-item expanded "><a href="blog/ja.html"><strong aria-hidden="true">2.</strong> Blog:ja</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/ja/writing_a_interpreter_in_go.html"><strong aria-hidden="true">2.1.</strong> 2024-04-32 :: Writing a interpreter in Go 総括</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -553,6 +553,96 @@ https://caddijp.atlassian.net/wiki/spaces/PMGMT/pages/1000144916/Postmortem+2023
 https://github.com/caddijp/development-policies/blob/main/docs/ja/policies/interface.md</p>
 <p>Software Tradeoffs Mistakes にもあるらしい</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="blogja"><a class="header" href="#blogja">Blog:ja</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="2024-04-32--writing-a-interpreter-in-go-感想文"><a class="header" href="#2024-04-32--writing-a-interpreter-in-go-感想文">2024-04-32 :: Writing a interpreter in Go 感想文</a></h1>
+<h2 id="概観"><a class="header" href="#概観">概観</a></h2>
+<p>当所でつくった interpreter は以下のような構造になっている</p>
+<pre class="mermaid">mindmap
+    root((Interpreter))
+        core -- process
+            lexer -- 字句解析
+            parser -- 構文解析 
+            evaluator -- 評価器
+        sub -- material
+            token(トークン)
+            ast(抽象構文木)
+            object(オブジェクト)
+                environment(環境)
+        utils
+            repl(REPL)
+            test(テスト)
+</pre>
+<h2 id="各モジュールの役割"><a class="header" href="#各モジュールの役割">各モジュールの役割</a></h2>
+<h3 id="lexical-analysis字句解析"><a class="header" href="#lexical-analysis字句解析">Lexical Analysis(字句解析)</a></h3>
+<p>ソースコードからトークン列を生成する処理。</p>
+<pre><code class="language-txt">Source Code
+|
+v ==&gt; Lexical Analysis (字句解析)
+|
+Tokens
+|
+v
+|
+Abstract Syntax Tree             
+</code></pre>
+<pre><code class="language-txt">let x = 5 + 5;
+  |
+Lexical Analysis  
+  |
+  v
+[
+    LET,
+    IDENTIFIER("x"),
+    ASSIGN,
+    INTEGER(5),
+    PLUS,
+    INTEGER(5),
+    SEMICOLON
+]
+</code></pre>
+<h3 id="parse構文解析"><a class="header" href="#parse構文解析">Parse(構文解析)</a></h3>
+<p>Tokenを抽象構文木などの構造的なデータに変換する処理</p>
+<pre><code class="language-txt">Source Code
+|
+v
+|
+Tokens
+|
+v ==&gt; Parse(構文解析)
+|
+Abstract Syntax Tree             
+</code></pre>
+<h3 id="evaluator"><a class="header" href="#evaluator">Evaluator</a></h3>
+<p>ASTをinputとして、それを何らかの命令として評価する。</p>
+<pre><code class="language-txt">Source Code
+|
+v
+|
+Tokens
+|
+v
+|
+Abstract Syntax Tree             
+|
+v ==&gt; Evaluator(評価器)
+|
+Result
+</code></pre>
+<h3 id="environment-object"><a class="header" href="#environment-object">Environment (Object)</a></h3>
+<p>TBD</p>
+<h2 id="parse-strategy-について"><a class="header" href="#parse-strategy-について">Parse Strategy について</a></h2>
+<p>Pratt Parser という Parse 戦略を採用した。</p>
+<p>( TODO: あとでまとめる )</p>
+<h2 id="開発の流れで印象的だったこと"><a class="header" href="#開発の流れで印象的だったこと">開発の流れで印象的だったこと</a></h2>
+<h3 id="最初にreplをつくる"><a class="header" href="#最初にreplをつくる">最初にREPLをつくる</a></h3>
+<p>まっさきにREPLをつくって、手軽にデバッグできる環境をつくった。
+個人的にはこれのおかげで学習のテンションがあがって楽しかった。</p>
+<p>特に作ったことがないものをつくるとき「まず小さな機能をE2Eで動かすこと」を目指すのは、モチベ管理のために重要だと感じた。</p>
+<h3 id="徹底してunitテストを書く"><a class="header" href="#徹底してunitテストを書く">徹底してUnitテストを書く</a></h3>
+<p>徹底してテスト駆動開発を行うスタイルだった。</p>
+<ul>
+<li>カバーしなければいけないinputの範囲も膨大、REPLで挙動を把握するのも面倒なので、テスト駆動で書くのは合理的。</li>
+<li>小さいモジュールを積み重ねていって、最終的に1つの言語をつくるので テストなしでは挙動を管理しきれない。</li>
+</ul>
 
                     </main>
 
