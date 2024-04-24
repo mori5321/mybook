@@ -7,3 +7,8 @@ https://qiita.com/tonluqclml/items/3affc5328d11b60583a9
 https://www.m3tech.blog/entry/timezone-handling
 
 Software Tradeoffs Mistakes にもあるらしい
+
+
+[](https://caddijp.atlassian.net/wiki/spaces/PMGMT/pages/1000144916/Postmortem+2023+08+17+Timezone+was+shifted+one+day)
+[](https://github.com/caddijp/development-policies/blob/main/docs/ja/policies/interface.md)
+
