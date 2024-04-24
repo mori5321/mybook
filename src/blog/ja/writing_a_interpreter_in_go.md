@@ -20,8 +20,8 @@ mindmap
             object -- オブジェクト
                 environment -- 環境
         utils
-            repl(REPL)
-            test(テスト)
+            repl -- REPL
+            test -- テスト
 ```
 
 
