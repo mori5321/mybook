@@ -175,19 +175,21 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="2024-04-32--writing-a-interpreter-in-go-感想文"><a class="header" href="#2024-04-32--writing-a-interpreter-in-go-感想文">2024-04-32 :: Writing a interpreter in Go 感想文</a></h1>
+<p><img src="./images/writing_an_interpreter_in_go.jpeg" alt="Writing An Interpreter In Go" /></p>
+<p><a href="https://interpreterbook.com/">Writing An Interpreter In Go</a></p>
 <h2 id="概観"><a class="header" href="#概観">概観</a></h2>
-<p>当所でつくった interpreter は以下のような構造になっている</p>
+<p>当書でつくった interpreter は以下のような構造になっている</p>
 <pre class="mermaid">mindmap
     root((Interpreter))
-        core -- process
+        core
             lexer -- 字句解析
             parser -- 構文解析 
             evaluator -- 評価器
-        sub -- material
-            token(トークン)
-            ast(抽象構文木)
-            object(オブジェクト)
-                environment(環境)
+        sub
+            token -- トークン
+            ast -- 抽象構文木
+            object -- オブジェクト
+                environment -- 環境
         utils
             repl(REPL)
             test(テスト)
@@ -267,7 +269,7 @@ Result
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li><a href="https://interpreterbook.com/">Writing An Interpreter In Go</a></li>
-<li><a href="https://github.com/mori5321/monkey">Github 実装</a></li>
+<li><a href="https://github.com/mori5321/monkey">Github</a></li>
 </ul>
 
                     </main>

@@ -548,25 +548,24 @@ if errors.Is(err, sql.ErrNoRows)
 https://qiita.com/tonluqclml/items/3affc5328d11b60583a9</p>
 <p>これが概ねよいらしい
 https://www.m3tech.blog/entry/timezone-handling</p>
-<p>社内知見
-https://caddijp.atlassian.net/wiki/spaces/PMGMT/pages/1000144916/Postmortem+2023+08+17+Timezone+was+shifted+one+day
-https://github.com/caddijp/development-policies/blob/main/docs/ja/policies/interface.md</p>
 <p>Software Tradeoffs Mistakes にもあるらしい</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="blogja"><a class="header" href="#blogja">Blog:ja</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="2024-04-32--writing-a-interpreter-in-go-感想文"><a class="header" href="#2024-04-32--writing-a-interpreter-in-go-感想文">2024-04-32 :: Writing a interpreter in Go 感想文</a></h1>
+<p><img src="blog/ja/./images/writing_an_interpreter_in_go.jpeg" alt="Writing An Interpreter In Go" /></p>
+<p><a href="https://interpreterbook.com/">Writing An Interpreter In Go</a></p>
 <h2 id="概観"><a class="header" href="#概観">概観</a></h2>
-<p>当所でつくった interpreter は以下のような構造になっている</p>
+<p>当書でつくった interpreter は以下のような構造になっている</p>
 <pre class="mermaid">mindmap
     root((Interpreter))
-        core -- process
+        core
             lexer -- 字句解析
             parser -- 構文解析 
             evaluator -- 評価器
-        sub -- material
-            token(トークン)
-            ast(抽象構文木)
-            object(オブジェクト)
-                environment(環境)
+        sub
+            token -- トークン
+            ast -- 抽象構文木
+            object -- オブジェクト
+                environment -- 環境
         utils
             repl(REPL)
             test(テスト)
@@ -646,7 +645,7 @@ Result
 <h2 id="references-2"><a class="header" href="#references-2">References</a></h2>
 <ul>
 <li><a href="https://interpreterbook.com/">Writing An Interpreter In Go</a></li>
-<li><a href="https://github.com/mori5321/monkey">Github 実装</a></li>
+<li><a href="https://github.com/mori5321/monkey">Github</a></li>
 </ul>
 
                     </main>
