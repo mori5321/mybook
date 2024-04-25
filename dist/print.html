@@ -181,9 +181,9 @@
 <pre><code class="language-c++">// This is 2^N
 1 &lt;&lt; N
 
-1 &lt;&lt; 2 == 000100 == 4  (2^2) 
-1 &lt;&lt; 3 == 001000 == 8  (2^3)
-1 &lt;&lt; 4 == 010000 == 16 (2^4)
+1 &lt;&lt; 2 &lt;=&gt; 000100 &lt;=&gt; 4  (2^2) 
+1 &lt;&lt; 3 &lt;=&gt; 001000 &lt;=&gt; 8  (2^3)
+1 &lt;&lt; 4 &lt;=&gt; 010000 &lt;=&gt; 16 (2^4)
 </code></pre>
 <h2 id="inttobitvector-right-bit-shift-to-identify-the-value-of-a-particular-digit-in-a-bit"><a class="header" href="#inttobitvector-right-bit-shift-to-identify-the-value-of-a-particular-digit-in-a-bit">intToBitVector (Right bit shift to identify the value of a particular digit in a bit)</a></h2>
 <p>Make <code>int</code> converted into <code>vector&lt;int&gt;</code>.
@@ -205,41 +205,41 @@ intToBitVector(5);
 intToBitVector(36); 
 // =&gt; vector&lt;int&gt;({ 1, 0, 0, 1, 0, 0 })
 </code></pre>
-<p>Q. How can we identify the value of a particular digit in a bit?
-A. Right Bit Shift &amp; 1.</p>
-<pre><code class="language-c++">
-Ex1) -------------------
-target digit = 32
+<h2 id="q-how-can-we-identify-the-value-of-a-particular-digit-in-a-bit"><a class="header" href="#q-how-can-we-identify-the-value-of-a-particular-digit-in-a-bit">Q. How can we identify the value of a particular digit in a bit?</a></h2>
+<p>A. Right Bit Shift &amp; 1.</p>
+<pre><code class="language-c++">Ex1) -------------------
+target number = 32
 
-(32 &gt;&gt; 0) &amp; 1 == 100000 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 2 == 010000 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 3 == 001000 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 4 == 000100 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 5 == 000010 &amp; 000001 == 000000 (return 0)
-(32 &gt;&gt; 1) &amp; 6 == 000001 &amp; 000001 == 000001 (return 1!)
+(32 &gt;&gt; 5) &amp; 1 &lt;=&gt; 000001 &amp; 000001 &lt;=&gt; 000001 (return 1!)
+(32 &gt;&gt; 4) &amp; 1 &lt;=&gt; 000010 &amp; 000001 &lt;=&gt; 000000 (return 0)
+(32 &gt;&gt; 3) &amp; 1 &lt;=&gt; 000100 &amp; 000001 &lt;=&gt; 000000 (return 0)
+(32 &gt;&gt; 2) &amp; 1 &lt;=&gt; 001000 &amp; 000001 &lt;=&gt; 000000 (return 0)
+(32 &gt;&gt; 1) &amp; 1 &lt;=&gt; 010000 &amp; 000001 &lt;=&gt; 000000 (return 0)
+(32 &gt;&gt; 0) &amp; 1 &lt;=&gt; 100000 &amp; 000001 &lt;=&gt; 000000 (return 0)
 
 You can identify Digit 6 should be 1 in a bit row of `32`.
 The bit row is `100000`. The function returns `vector&lt;int&gt;({ 1, 0, 0, 0, 0, 0})` 
 
 Ex2) -------------------
 
-target digit = 36
+target number = 36
 
-(36 &gt;&gt; 0) &amp; 1 == 100100 &amp; 000001 == 000000 (return 0)
-(36 &gt;&gt; 1) &amp; 2 == 010010 &amp; 000001 == 000000 (return 0)
-(36 &gt;&gt; 1) &amp; 3 == 001001 &amp; 000001 == 000001 (return 1!)
-(36 &gt;&gt; 1) &amp; 4 == 000100 &amp; 000001 == 000000 (return 0)
-(36 &gt;&gt; 1) &amp; 5 == 000010 &amp; 000001 == 000000 (return 0)
-(36 &gt;&gt; 1) &amp; 6 == 000001 &amp; 000001 == 000001 (return 1!)
+(36 &gt;&gt; 5) &amp; 1 &lt;=&gt; 000001 &amp; 000001 &lt;=&gt; 000001 (return 1!)
+(36 &gt;&gt; 4) &amp; 1 &lt;=&gt; 000010 &amp; 000001 &lt;=&gt; 000000 (return 0)
+(36 &gt;&gt; 3) &amp; 1 &lt;=&gt; 000100 &amp; 000001 &lt;=&gt; 000000 (return 0)
+(36 &gt;&gt; 2) &amp; 1 &lt;=&gt; 001001 &amp; 000001 &lt;=&gt; 000001 (return 1!)
+(36 &gt;&gt; 1) &amp; 1 &lt;=&gt; 010010 &amp; 000001 &lt;=&gt; 000000 (return 0)
+(36 &gt;&gt; 0) &amp; 1 &lt;=&gt; 100100 &amp; 000001 &lt;=&gt; 000000 (return 0)
 
-You can identify Digit 6 and Digit 3 should be 1 in a bit row of `32`.
-The bit row is `100100`.  The function returns `vector&lt;int&gt;({ 1, 0, 0, 1, 0, 0})` 
+You can identify Digit 6 and Digit 3 should be 1 in a bit row of `36`.
+The bit row is `100100`.  The function returns `vector&lt;int&gt;({ 1, 0, 0, 1, 0, 0})`
 </code></pre>
 <h2 id="bit-blute-force-search"><a class="header" href="#bit-blute-force-search">Bit Blute-force Search</a></h2>
 <p>This is a code pattern to do Blute-force Search for N Digit Bit.<br />
 It uses Left Bit Shift &amp; Right Bit Shift.</p>
 <pre><code class="language-c++">int bitDigit = 8;
 
+// Blute-force search for 00000000 ~ 11111111
 for (int bit = 0; bit &lt; (1 &lt;&lt; bitDigit); ++bit) {
   vector&lt;int&gt; = intToBitVector(bit, bitDigit)
 
