@@ -13,7 +13,7 @@ void* producer(void *arg) { // データの生成スレッド
   printf("producer ");
   fgets(buf, sizeof(buf), stdin);
 
-  pthread_mutex_lock(&mutex);
+  /* pthread_mutex_lock(&mutex); */
   ready = true; // producer関数によるデータ生成が、consumerスレッドの生成より割きに行われる可能性を排除する。(より厳密には擬似覚醒という現象を防ぎたい)
 
   if (pthread_cond_broadcast(&cond) != 0) { // 待機中のすべてのスレッドに通知する
@@ -21,12 +21,12 @@ void* producer(void *arg) { // データの生成スレッド
     exit(1);
   }
 
-  pthread_mutex_unlock(&mutex);
+  /* pthread_mutex_unlock(&mutex); */
   return NULL;
 }
 
 void* consumer(void *arg) { // データの消費を行うスレッド
-  pthread_mutex_lock(&mutex); // 条件変数を読み込むためのmutextロック獲得
+  /* pthread_mutex_lock(&mutex); // 条件変数を読み込むためのmutextロック獲得 */
 
   while (!ready) {
     // ここがわからん
@@ -36,7 +36,7 @@ void* consumer(void *arg) { // データの消費を行うスレッド
     }
   }
 
-  pthread_mutex_unlock(&mutex);
+  /* pthread_mutex_unlock(&mutex); */
 
   printf("consumer %s", buf);
   return NULL;
