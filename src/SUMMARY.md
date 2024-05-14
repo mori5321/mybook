@@ -10,4 +10,4 @@
     - [TBA:: Timezone Best Practice](./blog/en/timezone.md)
 - [Blog:ja](./blog/ja.md)
     - [2024-04-32 :: Writing a interpreter in Go 総括](./blog/ja/writing_a_interpreter_in_go.md)
-
+    - [ror](./ror/concurrent_programming/04_typical_bug_and_issue_of_concurrent_programming/NOTE.md)
