@@ -1,0 +1,9 @@
+{
+  "sysroot_src": "/Users/nishimoridaisuke/.rustup/toolchains/stable-aarch64-apple-darwin",
+  "crates": [
+    {
+      "root_module": "./main.rs",
+      "edition": "2021"
+    }
+  ]
+}
