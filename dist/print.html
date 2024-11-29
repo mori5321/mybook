@@ -90,7 +90,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="blog/en.html"><strong aria-hidden="true">1.</strong> Blog:en</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/en/bit_operation_pattern_useful_in_algorithm_competition.html"><strong aria-hidden="true">1.1.</strong> 2024-02-25 :: Bit Operation Pattern Useful in Algorithm Competition</a></li><li class="chapter-item expanded "><a href="blog/en/cmake_with_neovim_lsp.html"><strong aria-hidden="true">1.2.</strong> 2024-02-24 :: Make Neovim LSP Work well for C++/OpenCV with CMake</a></li><li class="chapter-item expanded "><a href="blog/en/graceful_shutdown.html"><strong aria-hidden="true">1.3.</strong> 2024-02-12 :: Graceful Shutdown in your web application</a></li><li class="chapter-item expanded "><a href="blog/en/deploy_mdbook_on_cloudflare_page_and_github_action.html"><strong aria-hidden="true">1.4.</strong> 2024-01-03 :: Deploy mdbook on Cloudflare Page and Github Action</a></li><li class="chapter-item expanded "><a href="blog/en/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.5.</strong> 2023-12-28 :: Learn Error Handling From Golang</a></li><li class="chapter-item expanded "><a href="blog/en/timezone.html"><strong aria-hidden="true">1.6.</strong> TBA:: Timezone Best Practice</a></li></ol></li><li class="chapter-item expanded "><a href="blog/ja.html"><strong aria-hidden="true">2.</strong> Blog:ja</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/ja/writing_a_interpreter_in_go.html"><strong aria-hidden="true">2.1.</strong> 2024-04-32 :: Writing a interpreter in Go 総括</a></li><li class="chapter-item expanded "><a href="ror/concurrent_programming/04_typical_bug_and_issue_of_concurrent_programming/NOTE.html"><strong aria-hidden="true">2.2.</strong> ror</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="blog/en.html"><strong aria-hidden="true">1.</strong> Blog:en</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/en/bit_operation_pattern_useful_in_algorithm_competition.html"><strong aria-hidden="true">1.1.</strong> 2024-02-25 :: Bit Operation Pattern Useful in Algorithm Competition</a></li><li class="chapter-item expanded "><a href="blog/en/cmake_with_neovim_lsp.html"><strong aria-hidden="true">1.2.</strong> 2024-02-24 :: Make Neovim LSP Work well for C++/OpenCV with CMake</a></li><li class="chapter-item expanded "><a href="blog/en/graceful_shutdown.html"><strong aria-hidden="true">1.3.</strong> 2024-02-12 :: Graceful Shutdown in your web application</a></li><li class="chapter-item expanded "><a href="blog/en/deploy_mdbook_on_cloudflare_page_and_github_action.html"><strong aria-hidden="true">1.4.</strong> 2024-01-03 :: Deploy mdbook on Cloudflare Page and Github Action</a></li><li class="chapter-item expanded "><a href="blog/en/learn_error_handling_from_golang.html"><strong aria-hidden="true">1.5.</strong> 2023-12-28 :: Learn Error Handling From Golang</a></li><li class="chapter-item expanded "><a href="blog/en/timezone.html"><strong aria-hidden="true">1.6.</strong> TBA:: Timezone Best Practice</a></li></ol></li><li class="chapter-item expanded "><a href="blog/ja.html"><strong aria-hidden="true">2.</strong> Blog:ja</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="blog/ja/writing_a_interpreter_in_go.html"><strong aria-hidden="true">2.1.</strong> 2024-04-32 :: Writing a interpreter in Go 総括</a></li></ol></li><li class="chapter-item expanded "><a href="memo/ja.html"><strong aria-hidden="true">3.</strong> Memo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="memo/nested-tmux.html"><strong aria-hidden="true">3.1.</strong> Nested Tmux Session</a></li><li class="chapter-item expanded "><a href="memo/gcloud-portforward.html"><strong aria-hidden="true">3.2.</strong> gcloud ssh port forwarding</a></li><li class="chapter-item expanded "><a href="memo/rust-tips.html"><strong aria-hidden="true">3.3.</strong> rust tips</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -649,46 +649,28 @@ Result
 <li><a href="https://interpreterbook.com/">Writing An Interpreter In Go</a></li>
 <li><a href="https://github.com/mori5321/monkey">Github</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="食事する哲学者問題"><a class="header" href="#食事する哲学者問題">食事する哲学者問題</a></h1>
-<p>デッドロック問題。
-ステートマシンの遷移として考えられる</p>
-<p>哲学者が2人の場合の状態遷移図</p>
-<div class="table-wrapper"><table><thead><tr><th style="text-align: right">状態名</th><th style="text-align: right">P1-L</th><th style="text-align: right">P1-R</th><th style="text-align: right">P2-L</th><th style="text-align: right">P2-R</th><th style="text-align: right">Next State</th></tr></thead><tbody>
-<tr><td style="text-align: right">S0</td><td style="text-align: right">F</td><td style="text-align: right">F</td><td style="text-align: right">F</td><td style="text-align: right">F</td><td style="text-align: right">S1, S2, S3</td></tr>
-<tr><td style="text-align: right">S1</td><td style="text-align: right">T</td><td style="text-align: right">F</td><td style="text-align: right">F</td><td style="text-align: right">F</td><td style="text-align: right">S3, S4</td></tr>
-<tr><td style="text-align: right">S2</td><td style="text-align: right">F</td><td style="text-align: right">F</td><td style="text-align: right">T</td><td style="text-align: right">F</td><td style="text-align: right">S3, S5</td></tr>
-<tr><td style="text-align: right">S3</td><td style="text-align: right">T</td><td style="text-align: right">F</td><td style="text-align: right">T</td><td style="text-align: right">F</td><td style="text-align: right"></td></tr>
-<tr><td style="text-align: right">S4</td><td style="text-align: right">T</td><td style="text-align: right">T</td><td style="text-align: right">F</td><td style="text-align: right">F</td><td style="text-align: right">S0</td></tr>
-<tr><td style="text-align: right">S5</td><td style="text-align: right">F</td><td style="text-align: right">F</td><td style="text-align: right">T</td><td style="text-align: right">T</td><td style="text-align: right">S0</td></tr>
-</tbody></table>
-</div>
-<p>TODO: 状態遷移図を書く</p>
-<p>定義: デッドロックとなる状態機械
-状態機械がデッドロックする可能性がある &lt;=&gt; 初期状態から到達可能かつ次の遷移先がないような状態を持つ</p>
-<p>参照はずしすると</p>
-<p>let val = Arc::new(RwLock::new(true));</p>
-<p>let t= thread::spawn(move || {
-let flag = *val.read().unwrap(); // 参照はずしするとロック解放されるの?
-// =&gt; 値のcopyを撮ってきているっぽい
-})</p>
-<p>Rustですらもテクニカルなコード書かなきゃいけないときあるんだな</p>
-<p>定義: ライブロックとなる状態機械
-状態機械がライブロックする可能性がある &lt;=&gt; 常にいずれかのリソース獲得状態へ到達可能だが、それら状態へは決して到達しないような無限の遷移列が存在する</p>
-<p>定義: 飢餓を引き起こす状態機械
-状態機械が飢餓を引き起こす可能性がある &lt;=&gt; あるプロセスが存在して、常にそのプロセスのリソース獲得状態へ到達可能だが、その状態へは決して到達しないような無限の遷移列が存在するか、デッドロックとなる状態機械である。</p>
-<p>ライブロックと飢餓は似ており、ライブロックはシステム全体に関する問題だが、飢餓は一部のノードに関する問題である。</p>
-<h1 id="銀行家のアルゴリズム"><a class="header" href="#銀行家のアルゴリズム">銀行家のアルゴリズム</a></h1>
-<p>銀行家のアルゴリズムみたいなrace conditionが発生しそうなアルゴリズムを自分で組んだとき、
-テストする・テストを書く・アルゴリズムの正しさを証明するのが難しそう。
-アルゴ強者に聞きたい。
-デッドロックを検知する手法として、リソース確保に関するグラフを生成し、循環的なリソース確保をしていないかを検査する手法がある。</p>
-<p>実際どういう処理に使われているんだろう。リソース確保系に使われるんだろうが。</p>
-<h1 id="再帰ロック"><a class="header" href="#再帰ロック">再帰ロック</a></h1>
-<p>ロックを獲得中のプロセスがそのロックを解放前に再度そのロックを獲得しようとすること</p>
-<h1 id="再入可能ロック"><a class="header" href="#再入可能ロック">再入可能ロック</a></h1>
-<p>再帰ロックを行ってもデッドロック状態に陥らず、処理を続行可能なロック機構のこと</p>
-<h1 id="擬似覚醒"><a class="header" href="#擬似覚醒">擬似覚醒</a></h1>
-<p>ある条件が満たされるまで待機中のプロセスが、条件が満たされていないにかかわらず実行状態へ移行すること</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="memo"><a class="header" href="#memo">Memo</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><p>tmux-session の 中で tmux を使いたいときがある。
+たとえばローカルのtmuxでリモートサーバーにsshして、その中で更にtmuxを使いたいときなど。</p>
+<p>そういうときは prefix key を使うのがよい</p>
+<p>設定はこれだけ。Ctrl-a で tmux-session内でもprefixを送れるようにする。</p>
+<pre><code class="language-tmux.conf">bind-key a send-prefix
+</code></pre>
+<p>Nestしてtmuxを使いたいときは以下のようにすればよい</p>
+<pre><code>Ctrl-b a
+</code></pre>
+<p>https://blog.ccm-lulu.com/2013/02/tmux-nested-tmux-tmux-tmux.html
+https://mutelight.org/practical-tmux</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gcloud-ssh-port-forwarding"><a class="header" href="#gcloud-ssh-port-forwarding">gcloud ssh port forwarding</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="matches-マクロ"><a class="header" href="#matches-マクロ">matches マクロ</a></h1>
+<p>matches! マクロ
+https://qiita.com/niwaka_dev/items/c5b2f5b6587e827a3247</p>
+<p>パターンにマッチするかどうかだけを判定するマクロ。</p>
+<p>テストで雑に判定したいときに便利。わざわざEqやPartialEqを実装する必要がない。</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>assert!(matches!(Some(42), Some(42)));
+<span class="boring">}</span></code></pre></pre>
 
                     </main>
 
